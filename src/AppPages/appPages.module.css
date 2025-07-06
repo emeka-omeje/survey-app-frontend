@@ -1,0 +1,103 @@
+/* Dashboard Page CSS */
+.dashboard_main {
+    width: 100%;
+    /* height: calc(100vh - 80px); */
+    height: 100%;
+    display: grid;
+    grid-template-columns: 3.5fr 1fr;
+    gap: 20px;
+    overflow: hidden;
+    padding: 0px 20px 0 20px;
+}
+.dashboard_main_wrapper_1 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* overflow: auto; */
+    background-color: var(--primary-white);
+    padding: 20px 10px;
+    /* margin-top: 20px; */
+    border-radius: 10px;
+    overflow: auto;
+}
+.dashboard_main_wrapper_2 {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* margin-top: 20px; */
+    overflow: auto;
+}
+.dashboard_main_container_overview {
+    width: 100%;
+    height: max-content;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 20px;
+    padding: 10px;
+    /* padding-bottom: 10px; */
+    background-color: transparent;
+}
+.dashboard_main_container_trends {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 20px
+}
+
+
+/* Full Page Scroll */
+.fullPage_scroll {
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    padding-top: 20px;
+}
+
+
+
+
+/* Projects Page CSS */
+.projects_main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 20px 0 20px;
+}
+
+
+
+/* Survey Page CSS */
+.surveyContent_wrapper {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 3.5fr 1fr;
+    gap: 20px;
+    /* overflow: hidden; */
+}
+.surveyContent_container, .projectContent_wrapper {
+    width: 100%;
+    height: calc(100vh - 200px);
+    /* height: 100%; */
+    background-color: var(--primary-white);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 14px;
+    overflow: hidden;
+}
+.listScroll {
+    width: 100%;
+    height: calc(100vh - 200px);
+    overflow: auto;
+}

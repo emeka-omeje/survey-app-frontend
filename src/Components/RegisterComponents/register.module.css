@@ -1,0 +1,235 @@
+/* Register Inputs CSS */
+.register_input_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.register_firstName_container,
+.register_lastName_container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.register_firstName_label,
+.register_lastName_label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--faded-black);
+}
+.register_firstName_input,
+.register_lastName_input {
+  width: 100%;
+  max-width: 252px;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-grey);
+  padding: 8px 12px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ashed-black);
+  outline: none;
+  box-shadow: 0 0 12px -6px var(--dark-opacity);
+
+  &::placeholder {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 32px;
+    color: var(--off-black);
+  }
+
+  &:focus {
+    outline: 2px solid var(--active-blue);
+  }
+    &:hover {
+    border: 1px solid var(--active-blue);
+  }
+}
+
+/* Register Select CSS */
+.register_select_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.register_select_label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--faded-black);
+}
+.register_select_component {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 2px solid var(--primary-grey);
+  padding: 10px 16px;
+  box-shadow: 0 0 12px -6px var(--dark-opacity);
+
+  &:has(.register_select_card:focus) {
+    outline: 2px solid var(--active-blue);
+  }
+}
+.register_select_card {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 32px;
+  color: var(--off-black);
+}
+
+/* Register Email CSS */
+.register_email_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.register_email_label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--faded-black);
+}
+
+.register_email_input {
+  width: 100%;
+  height: 56px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-grey);
+  padding: 10px 16px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ashed-black);
+  outline: none;
+  box-shadow: 0 0 12px -6px var(--dark-opacity);
+
+  &::placeholder {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 32px;
+    color: var(--off-black);
+  }
+
+  &:focus {
+    outline: 2px solid var(--active-blue);
+  }
+    &:hover {
+    border: 1px solid var(--active-blue);
+  }
+}
+
+/* Register Password CSS */
+.register_pwd2_wrapper,
+.register_pwd1_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.register_pwd2_label,
+.register_pwd1_label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--faded-black);
+}
+.register_pwd2_input_container,
+.register_pwd1_input_container {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid var(--primary-grey);
+  padding: 8px 12px;
+  box-shadow: 0 0 12px -6px var(--dark-opacity);
+
+  &:has(.register_pwd1_input:focus, .register_pwd2_input:focus) {
+    outline: 2px solid var(--active-blue);
+  }
+
+  &:hover {
+    border: 1px solid var(--active-blue);
+  }
+}
+.register_pwd2_input,
+.register_pwd1_input {
+  width: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ashed-black);
+  outline: none;
+  border: none;
+
+  &::placeholder {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 32px;
+    color: var(--off-black);
+  }
+}
+
+/* Register Google Button CSS */
+.register_google_container {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--default-grey-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--default-grey-color);
+  }
+}
+.register_google_p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--primary-black);
+}
+
+/* Register LinkedIn Button CSS */
+.register_linkedIn_container {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid var(--default-grey-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.register_linkedIn_logo {
+  font-size: 26px;
+  color: var(--active-blue);
+}
+.register_linkedIn_p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--primary-black);
+}

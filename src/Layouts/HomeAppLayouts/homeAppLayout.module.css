@@ -1,0 +1,196 @@
+.app_layout_main {
+  width: 100%;
+  height: max-content;
+  min-height: 100vh;
+  background-color: var(--default-background);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* position: fixed; */
+}
+.app_layout_outlet_wrapper {
+  width: 100%;
+  height: 100%;
+  max-height: 100vh; /* min */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* overflow: auto; */
+}
+.app_layout_outlet_container {
+  width: 100%;
+  height: 100%;
+  /* height: calc(100vh - 80px); */
+  background: transparent;
+  border: none;
+  outline: none;
+  /* padding: 20px 20px 0 20px; */
+  /* overflow-y: auto; */
+}
+
+
+/* App Navbar Top Layout CSS */
+.appNav_top_layout_wrapper {
+  width: 100%;
+  height: 80px;
+  /* padding-left: 268px; */
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* position: fixed; */
+  /* top: 0; */
+  /* z-index: 0; */
+  border-bottom: 1px solid var(--light-grey);
+  background-color: var(--default-background);
+  background-color: var(--primary-white);
+
+}
+.appNav_top_layout_container {
+  width: max-content;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+.appNav_top_layout_searchbar_container,
+.appNav_top_layout_notificationIcon_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--just-grey);
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid var(--navy-blue);
+    outline: 2px solid rgba(227, 225, 225, 0.788);
+  }
+}
+
+
+/* App Navbar Aside CSS */
+.appNav_aside_wrapper {
+  width: 300px;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* gap: 24px; */
+  /* padding: 0 20px; */
+  border-right: 1px solid var(--just-grey);
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1; */
+  /* background-color: var(--default-background); */
+  background-color: var(--navy-blue);
+  /* overflow-y: auto; */
+  /* position: fixed; */
+}
+.appNav_aside_topWrapper {
+  width: 100%;
+  height: auto;
+  /* min-height: 200px; */
+  /* overflow-y: auto; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* padding-top: 20px; */
+  /* gap: 20px; */
+  /* background-color: red; */
+}
+.appNav_aside_logoContainer {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 8px;
+  padding-left: 30px;
+  border-bottom: 1px solid var(--just-grey);
+  cursor: pointer;
+}
+.appNav_aside_logo {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+}
+.appNav_aside_h2 {
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 48px;
+  color: var(--color-background);
+
+  span {
+    color: var(--color-accent);
+  }
+}
+.appNav_aside_linkWrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+  padding-left: 30px;
+  padding-top: 20px;
+  overflow-y: auto;
+}
+.appNav_aside_linkTools {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--color-background);
+  padding: 20px;
+  padding-bottom: 0;
+  padding-left: 30px;
+}
+
+
+.appNav_aside_logoutContainer {
+  width: 100%;
+  /* height: 50px; */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 8px;
+  padding-left: 36px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--primary-grey);
+  cursor: pointer;
+
+  .appNav_aside_h3 {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--color-background);
+  }  
+}
+
+
+
+/* Analytics Layout CSS */
+.analytics_wrapper {
+  width: 100%;
+  height: max-content;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 36px;
+  background: transparent;
+  gap: 10px;
+}

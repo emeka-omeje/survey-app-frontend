@@ -1,0 +1,170 @@
+/* ListEachItem Component CSS */
+.listEachItem_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border: 1px solid var(--light-grey);
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--very-light-purple);
+  }
+}
+
+.listEachItem_name_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+
+  p {
+    font-size: 18px;
+    font-weight: 300px;
+  }
+}
+
+/* Collaborators | ProjectParticipation Status Component CSS */
+.listEachItemOtherProps_container {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 8px;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--not-light-purple);
+    border-radius: 4px;
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--off-black);
+  }
+}
+.listEachItem_otherProps_wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+  width: max-content;
+}
+.tooltip {
+  visibility: hidden; /* Initially hidden */
+  background-color: #333; /* Tooltip background */
+  color: #fff; /* Tooltip text color */
+  text-align: center;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 120%; /* Position above the parent */
+  left: 50%;
+  transform: translateX(-50%);
+   /* Center the tooltip */
+  white-space: nowrap; /* Prevent text wrapping */
+  opacity: 0; /* Start hidden for smooth transition */
+  transition: opacity 0.2s ease-in-out; /* Smooth appearance */
+}
+.listEachItemOtherProps_container:hover .tooltip {
+  z-index: 1000; /* Ensure it appears above other elements */
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Project Heaader Component CSS */
+.projectHeader_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 42px;
+    color: var(--primary-black);
+  }
+}
+
+/* Prgress Bar Item Container CSS */
+.progressBarItem_wrapper {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background-color: var(--not-light-purple);
+    border-radius: 10px;
+
+    .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+.ProgressBarItem_text_container {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--off-black);
+}
+.ProgressBarItem_container {
+  width: 80px;
+  height: 20px;
+  border: 1px solid var(--just-grey);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: var(--light-grey);
+}
+.ProgressBarItem_progress {
+  height: 100%;
+  border-radius: 6px;
+  background-color: var(--navy-blue);
+  transition: width 0.3s ease-in-out;
+}
+.ProgressBarItem_shimmer {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+  border-radius: 5px;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* ProjectContentHeader Component CSS */
+.projectContent_header {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}

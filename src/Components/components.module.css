@@ -1,0 +1,292 @@
+/* Auth Layout Links CSS */
+.auth_link_container {
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.auth_link_register,
+.auth_link_login {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  /* color: var(--primary-black); */
+  padding-bottom: 12px;
+  width: 50%;
+
+  &:hover {
+    background-color: rgba(241, 240, 240, 0.888);
+  }
+}
+.auth_link_login {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 24px;
+}
+
+/* Sidebar Links */
+.appNav_aside_linkContainer {
+  /* width: 100%; */
+  width: inherit;
+  height: "auto";
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 6px 30px 6px 20px;
+  /* padding-left: 20px; */
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+
+  p {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 28px;
+    transition: color 0.3s;
+  }
+}
+.sidebar_link_active {
+  background-color: var(--color-background);
+  /* border-left: 4px solid var(--active-blue); */
+  p {
+    color: var(--navy-blue);
+  }
+  .appNav_aside_activelinkIcon {
+    display: block;
+  }
+  .appNav_aside_inactivelinkIcon {
+    display: none;
+  }
+}
+.sidebar_link_inactive {
+  background-color: transparent;
+  p {
+    color: var(--color-background);
+  }
+  .appNav_aside_activelinkIcon {
+    display: none;
+  }
+  .appNav_aside_inactivelinkIcon {
+    display: block;
+  }
+
+  &:hover {
+    background-color: rgba(44, 42, 62, 0.888);
+  }
+}
+
+/* NavigationTabName CSS */
+.NavigationTabName_h1 {
+  /* font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  color: var(--navy-blue); */
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 42px;
+  color: var(--primary-black);
+}
+
+/* NavigationUserTag CSS */
+.appNav_top_layout_img_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 100px;
+  padding: 6px;
+  padding-right: 16px;
+  border: 1px solid var(--just-grey);
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid var(--navy-blue);
+
+    .appNav_top_layout_img {
+      outline: 2px solid rgba(227, 225, 225, 0.788);
+    }
+  }
+
+  p {
+    font-weight: 200;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--off-black);
+  }
+}
+.appNav_top_layout_img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  outline-color: var(--color-accent);
+  outline-width: 30px;
+  border-width: 30px;
+  border-color: var(--navy-blue);
+}
+
+
+/* App Button CSS */
+.appBTN {
+  width: max-content;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--navy-blue);
+  padding: 8px 16px;
+  gap: 10px;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: rgba(44, 42, 62, 0.888);
+    outline: 2px solid var(--just-grey);
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    /* line-height: 28px; */
+    color: var(--primary-white);
+  }
+}
+
+/* DayToYearAnalyzeToggler Component CSS */
+.dayToYearAnalyzeToggler_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 10px;
+  /* padding: 6px 10px; */
+  border: none;
+  outline: none;
+}
+
+.toggle_active {
+  background-color: var(--navy-blue);
+  color: var(--color-background);
+}
+.toggle_inactive {
+  background-color: transparent;
+  color: var(--primary-black);
+  &:hover {
+    background-color: var(--color-primary-alt);
+  }
+}
+
+
+
+
+/* FilterList Component CSS */
+.filterListComponent_wrapper {
+  width: max-content;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 1px solid var(--navy-blue); */
+  gap: 50px;
+}
+.filterListComponent_container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  border-radius: 6px;
+  background-color: var(--primary-white);
+  padding: 10px 20px ;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    outline: 1px solid var(--navy-blue);
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 400px;
+  }
+
+  .resetFilter_btn {
+    color: var(--color-error);
+  }
+}
+.filterList_select {
+  /* padding: 5px 10px; */
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: var(--navy-blue);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+  border: none;
+
+  /* &:hover {
+    border: 1px solid var(--navy-blue);
+  } */
+  /* position: relative;
+
+  option {
+    background-color: var(--primary-white);
+    padding: 10px;
+  } */
+}
+.filterList_select:focus {
+  outline: none;
+  border-color: var(--navy-blue);
+}
+
+
+
+/* ToggleSwtichComponent CSS */
+.toggleSwitch {
+  width: 50px;
+  height: 16px;
+  border-radius: 25px;
+  background-color: #ccc;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #ccc;
+}
+
+.toggleSwitch.on {
+  background-color: var(--light-navy-blue);
+}
+
+.toggleKnob {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  position: absolute;
+  /* top: 1px; */
+  left: -2px;
+  transition: transform 0.2s ease;
+}
+
+.toggleSwitch.on .toggleKnob {
+  transform: translateX(30px);
+}

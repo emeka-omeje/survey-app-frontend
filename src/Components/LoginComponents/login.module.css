@@ -1,0 +1,128 @@
+/* Login Title CSS */
+.login_title {
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 48px;
+  align-self: flex-start;
+}
+
+/* Login Form CSS */
+.login_form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 24px;
+}
+.login_form_btn {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--purple-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  color: var(--primary-white);
+  cursor: pointer;
+}
+
+/* Login Email CSS */
+.login_email_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.login_email_label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--faded-black);
+}
+
+.login_email_input {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-grey);
+  padding: 8px 12px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ashed-black);
+  outline: none;
+  box-shadow: 0 0 12px -6px var(--dark-opacity);
+
+  &::placeholder {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 32px;
+    color: var(--off-black);
+  }
+
+  &:focus {
+    outline: 2px solid var(--active-blue);
+  }
+
+  &:hover {
+    border: 1px solid var(--active-blue);
+  }
+}
+
+/* Login Password CSS */
+.login_pwd1_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.login_pwd1_label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--faded-black);
+}
+.login_pwd1_input_container {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid var(--primary-grey);
+  padding: 8px 12px;
+  box-shadow: 0 0 12px -6px var(--dark-opacity);
+
+  &:has(.login_pwd1_input:focus) {
+    outline: 2px solid var(--active-blue);
+  }
+
+  &:hover {
+    border: 1px solid var(--active-blue);
+  }
+}
+.login_pwd1_input {
+  width: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ashed-black);
+  outline: none;
+  border: none;
+
+  &::placeholder {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 32px;
+    color: var(--off-black);
+  }
+}
