@@ -42,6 +42,15 @@ export const retryAddToSurveyQueue = async () => {
   }
 };
 
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+export const emptySurveyQueue = () => { 
+  localStorage.removeItem(QUEUE_KEY);
+  // Optionally, you can also notify the user that the queue has been emptied
+  // toast.success("Survey queue has been emptied.");
+}
+
+
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 window.addEventListener("online", retryAddToSurveyQueue);
 window.addEventListener("offline", () => {

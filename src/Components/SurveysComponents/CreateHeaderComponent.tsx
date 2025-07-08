@@ -1,6 +1,7 @@
 import CreateHeaderNavigation from "./CreateHeaderNavigation";
 import style from "./surveyComponent.module.css";
 import { useAppContext } from "../../Utils/AppContext";
+import { addToSurveyQueue, emptySurveyQueue } from "../../Utils/ManualSave";
 
 const CreateHeaderComponent = () => {
   // const navigationItemArray = [
@@ -13,7 +14,7 @@ const CreateHeaderComponent = () => {
   const navigationStringArray = ["Builder", "Logic", "Permission"];
   //   const [buttonName, setButtonName] = React.useState("Builder");
 
-  const { createNavBTNLabel, setCreateNavBTNLabel, setPublishingStatus, } = useAppContext();
+  const { createNavBTNLabel, setCreateNavBTNLabel, setPublishingStatus, surveyData } = useAppContext();
 
   const handleManualPublishAction = (action: string) => {
     setCreateNavBTNLabel(action)
@@ -23,14 +24,26 @@ const CreateHeaderComponent = () => {
       if (!navigator.onLine) throw new Error("You are offline. Please check your internet connection."); 
       // I will still need to confirm if this above logic needs modification to include a queue system for offline data saving.
 
+      // const updatedSurveyData = { ...surveyData, isPublished: true, updatedAt: new Date().toISOString(), isDirty: false };
+      
       // The logic that should be here below should be the one that sends to backend API to save survey data to server.
       // The data should be removed from the indexDB storage and the localStorage queue.
+      emptySurveyQueue()
       // Also, the dirty status should be changed from true to false.
       setPublishingStatus('Published');
-    } catch (err) {
-    console.error('Manual save failed:', err);
-    // enqueueSync(surveyId, surveyData); This should add the surveyData back to queue until network is restored
-    setPublishingStatus('Offline');
+    } catch (err: unknown) {
+      let errorMessage = 'Unknown error';
+      if (err instanceof Error) {
+         errorMessage = err.message;
+      }
+      console.error('Manual save failed:', errorMessage);
+      addToSurveyQueue(surveyData);
+      // This above should add the surveyData back to queue until network is restored
+      if (!navigator.onLine || errorMessage === 'offline') {
+        setPublishingStatus("Offline");
+      } else {
+        setPublishingStatus("Error");
+      }
     }
   }
 
