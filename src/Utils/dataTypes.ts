@@ -52,10 +52,11 @@ export type surveyDraftTypeProps = {
     draftedAt: string;
     isPublished: boolean;
     isDraft: boolean;
-    isDirty: boolean;
+  isDirty: boolean;
+    
 }
 // Type for AutoSaveHook Props
-export type AutoSaveHookProps = {
+export type AutoDraftSaveHookProps = {
     data: surveyDraftTypeProps;
     markClean: () => void;
     delay: number;

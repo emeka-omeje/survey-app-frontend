@@ -1,10 +1,9 @@
 const DB_NAME = "surveyBuilderDB";
-const dbStoreName = "surveyDrafts";
-// const unpublishedSurveyStoreName = "unpublishedSurveys";
-import { surveyDraftTypeProps } from "./dataTypes";
+const unfinishedSurveysStoreName = "surveyDrafts";
+import { surveyDraftTypeProps } from "../dataTypes";
 
 // Creates or identifies the indexedDBStorage
-export const openDB = (): Promise<IDBDatabase> => {
+export const openSurveyDraftDB = (): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, 1);
 
@@ -13,8 +12,10 @@ export const openDB = (): Promise<IDBDatabase> => {
 
     request.onupgradeneeded = () => {
       const dbStore = request.result;
-      if (!dbStore.objectStoreNames.contains(dbStoreName)) {
-        dbStore.createObjectStore(dbStoreName, { keyPath: "id" });
+      if (!dbStore.objectStoreNames.contains(unfinishedSurveysStoreName)) {
+        dbStore.createObjectStore(unfinishedSurveysStoreName, {
+          keyPath: "id",
+        });
       }
     };
   });
@@ -33,22 +34,30 @@ const waitForTransactionCompletion = (
 
 // Ensuring draft is saved in the indexedDBStorage
 export const saveSurveyDraft = async (data: surveyDraftTypeProps) => {
-  const dbStore = await openDB();
-  const transaction = dbStore.transaction(dbStoreName, "readwrite");
+  const dbStore = await openSurveyDraftDB();
+  const transaction = dbStore.transaction(
+    unfinishedSurveysStoreName,
+    "readwrite"
+  );
   transaction
-    .objectStore(dbStoreName)
+    .objectStore(unfinishedSurveysStoreName)
     .put({ ...data, updatedAt: new Date().toISOString() });
-  await waitForTransactionCompletion(transaction);
+  await waitForTransactionCompletion(transaction).then(() => true);
 };
 
 // Gets saved survey drafts from the indexedDBStorage
 export const getSurveyDrafts = async (
   id: string
 ): Promise<surveyDraftTypeProps | null> => {
-  const dbStore = await openDB();
+  const dbStore = await openSurveyDraftDB();
   return new Promise((resolve, reject) => {
-    const transaction = dbStore.transaction(dbStoreName, "readonly");
-    const draftRequest = transaction.objectStore(dbStoreName).get(id);
+    const transaction = dbStore.transaction(
+      unfinishedSurveysStoreName,
+      "readonly"
+    );
+    const draftRequest = transaction
+      .objectStore(unfinishedSurveysStoreName)
+      .get(id);
     draftRequest.onerror = () => reject(draftRequest.error);
     draftRequest.onsuccess = () => {
       if (draftRequest.result) {
@@ -62,8 +71,11 @@ export const getSurveyDrafts = async (
 
 // Deletes a survey draft from the indexedDBStorage
 export const deleteSurveyDraft = async (id: string) => {
-    const dbStore = await openDB();
-    const transaction = dbStore.transaction(dbStoreName, "readwrite");
-    transaction.objectStore(dbStoreName).delete(id);
-    await waitForTransactionCompletion(transaction);
-}
+  const dbStore = await openSurveyDraftDB();
+  const transaction = dbStore.transaction(
+    unfinishedSurveysStoreName,
+    "readwrite"
+  );
+  transaction.objectStore(unfinishedSurveysStoreName).delete(id);
+  await waitForTransactionCompletion(transaction);
+};

@@ -1,8 +1,7 @@
 import { surveyDraftTypeProps } from "./dataTypes";
-import { saveSurveyDraft } from "./indexDBStorage";
+import { saveSurveyDraft } from "./IndexDBs/surveyDraftIndexDBStorage";
 // import toast from "react-hot-toast";
 const QUEUE_KEY = "surveySyncQueue";
-
 
 const getSurveyFromQueue = (): [] => {
   const queue = localStorage.getItem(QUEUE_KEY);
@@ -42,14 +41,12 @@ export const retryAddToSurveyQueue = async () => {
   }
 };
 
-
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-export const emptySurveyQueue = () => { 
+export const emptySurveyQueue = () => {
   localStorage.removeItem(QUEUE_KEY);
   // Optionally, you can also notify the user that the queue has been emptied
   // toast.success("Survey queue has been emptied.");
-}
-
+};
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 window.addEventListener("online", retryAddToSurveyQueue);
