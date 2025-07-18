@@ -1,6 +1,6 @@
 const DB_NAME = "surveyBuilderDB";
 const unpublishedSurveyStoreName = "unpublishedSurveys";
-import { surveyDraftTypeProps } from "./../dataTypes";
+import { surveyTypeProps } from "./../dataTypes";
 
 // Creates or identifies the indexedDBStorage
 export const openUnpublishedSurveyDB = (): Promise<IDBDatabase> => {
@@ -31,7 +31,7 @@ const waitForTransactionCompletion = (
 };
 
 // Ensuring draft is saved in the indexedDBStorage
-export const saveUnpublishedSurvey = async (data: surveyDraftTypeProps) => {
+export const saveUnpublishedSurvey = async (data: surveyTypeProps) => {
   const dbStore = await openUnpublishedSurveyDB();
   const transaction = dbStore.transaction(unpublishedSurveyStoreName, "readwrite");
   transaction
@@ -44,28 +44,28 @@ export const saveUnpublishedSurvey = async (data: surveyDraftTypeProps) => {
 // This is not useful since we will not be fetching unpublished surveys...........................
 
 // // Gets saved survey drafts from the indexedDBStorage
-// export const getUnpublishedSurvey = async (
-//   id: string
-// ): Promise<surveyDraftTypeProps | null> => {
-//   const dbStore = await openUnpublishedSurveyDB();
-//   return new Promise((resolve, reject) => {
-//     const transaction = dbStore.transaction(unpublishedSurveyStoreName, "readonly");
-//     const unpublishedRequest = transaction.objectStore(unpublishedSurveyStoreName).get(id);
-//     unpublishedRequest.onerror = () => reject(unpublishedRequest.error);
-//     unpublishedRequest.onsuccess = () => {
-//       if (unpublishedRequest.result) {
-//         resolve(unpublishedRequest.result as surveyDraftTypeProps);
-//       } else {
-//         resolve(null);
-//       }
-//     };
-//   });
-// };
+export const getAllUnpublishedSurveys = async (
+  id: string
+): Promise<surveyTypeProps | null> => {
+  const dbStore = await openUnpublishedSurveyDB();
+  return new Promise((resolve, reject) => {
+    const transaction = dbStore.transaction(unpublishedSurveyStoreName, "readonly");
+    const unpublishedRequest = transaction.objectStore(unpublishedSurveyStoreName).get(id);
+    unpublishedRequest.onerror = () => reject(unpublishedRequest.error);
+    unpublishedRequest.onsuccess = () => {
+      if (unpublishedRequest.result) {
+        resolve(unpublishedRequest.result as surveyTypeProps);
+      } else {
+        resolve(null);
+      }
+    };
+  });
+};
 
-// // Deletes unpublished surveys from the indexedDBStorage
-// export const deleteUnpublishedSurvey = async () => {
-//     const dbStore = await openUnpublishedSurveyDB();
-//     const transaction = dbStore.transaction(unpublishedSurveyStoreName, "readwrite");
-//     transaction.objectStore(unpublishedSurveyStoreName).delete(id);
-//     await waitForTransactionCompletion(transaction);
-// }
+// Deletes unpublished surveys from the indexedDBStorage
+export const deleteAllUnpublishedSurveys = async () => {
+    const dbStore = await openUnpublishedSurveyDB();
+    const transaction = dbStore.transaction(unpublishedSurveyStoreName, "readwrite");
+    transaction.objectStore(unpublishedSurveyStoreName).clear();
+    await waitForTransactionCompletion(transaction);
+}

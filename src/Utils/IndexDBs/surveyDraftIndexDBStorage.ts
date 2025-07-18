@@ -1,6 +1,6 @@
 const DB_NAME = "surveyBuilderDB";
 const unfinishedSurveysStoreName = "surveyDrafts";
-import { surveyDraftTypeProps } from "../dataTypes";
+import { surveyTypeProps } from "../dataTypes";
 
 // Creates or identifies the indexedDBStorage
 export const openSurveyDraftDB = (): Promise<IDBDatabase> => {
@@ -33,7 +33,7 @@ const waitForTransactionCompletion = (
 };
 
 // Ensuring draft is saved in the indexedDBStorage
-export const saveSurveyDraft = async (data: surveyDraftTypeProps) => {
+export const saveSurveyDraft = async (data: surveyTypeProps) => {
   const dbStore = await openSurveyDraftDB();
   const transaction = dbStore.transaction(
     unfinishedSurveysStoreName,
@@ -48,7 +48,7 @@ export const saveSurveyDraft = async (data: surveyDraftTypeProps) => {
 // Gets saved survey drafts from the indexedDBStorage
 export const getSurveyDrafts = async (
   id: string
-): Promise<surveyDraftTypeProps | null> => {
+): Promise<surveyTypeProps | null> => {
   const dbStore = await openSurveyDraftDB();
   return new Promise((resolve, reject) => {
     const transaction = dbStore.transaction(
@@ -61,7 +61,7 @@ export const getSurveyDrafts = async (
     draftRequest.onerror = () => reject(draftRequest.error);
     draftRequest.onsuccess = () => {
       if (draftRequest.result) {
-        resolve(draftRequest.result as surveyDraftTypeProps);
+        resolve(draftRequest.result as surveyTypeProps);
       } else {
         resolve(null);
       }

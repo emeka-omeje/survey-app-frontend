@@ -1,4 +1,4 @@
-import { surveyDraftTypeProps } from "./dataTypes";
+import { surveyTypeProps } from "./dataTypes";
 import { saveSurveyDraft } from "./IndexDBs/surveyDraftIndexDBStorage";
 // import toast from "react-hot-toast";
 const QUEUE_KEY = "surveySyncQueue";
@@ -8,12 +8,12 @@ const getSurveyFromQueue = (): [] => {
   return queue ? JSON.parse(queue) : [];
 };
 
-const saveSurveyToQueue = (queue: surveyDraftTypeProps[]) => {
+const saveSurveyToQueue = (queue: surveyTypeProps[]) => {
   localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
 };
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-export const addToSurveyQueue = (surveyData: surveyDraftTypeProps) => {
+export const addToSurveyQueue = (surveyData: surveyTypeProps) => {
   const prevSurveyQueue = getSurveyFromQueue();
   const updatedQueue = [
     ...prevSurveyQueue,
