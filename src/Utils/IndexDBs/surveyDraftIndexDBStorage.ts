@@ -1,6 +1,7 @@
-const DB_NAME = "surveyBuilderDB";
-const unfinishedSurveysStoreName = "surveyDrafts";
 import { surveyTypeProps } from "../dataTypes";
+const DB_NAME = "surveyBuilderDB";
+export const unfinishedSurveysStoreName = "surveyDrafts";
+
 
 // Creates or identifies the indexedDBStorage
 export const openSurveyDraftDB = (): Promise<IDBDatabase> => {
@@ -13,16 +14,17 @@ export const openSurveyDraftDB = (): Promise<IDBDatabase> => {
     request.onupgradeneeded = () => {
       const dbStore = request.result;
       if (!dbStore.objectStoreNames.contains(unfinishedSurveysStoreName)) {
-        dbStore.createObjectStore(unfinishedSurveysStoreName, {
+        const store = dbStore.createObjectStore(unfinishedSurveysStoreName, {
           keyPath: "id",
         });
+        store.createIndex("status", "status", { unique: false });
       }
     };
   });
 };
 
 // Waiting for the transaction to complete
-const waitForTransactionCompletion = (
+export const waitForTransactionCompletion = (
   transaction: IDBTransaction
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
@@ -41,11 +43,11 @@ export const saveSurveyDraft = async (data: surveyTypeProps) => {
   );
   transaction
     .objectStore(unfinishedSurveysStoreName)
-    .put({ ...data, updatedAt: new Date().toISOString() });
+    .put({ ...data, updatedAt: new Date().toISOString(), status: "draft" } as surveyTypeProps);
   await waitForTransactionCompletion(transaction).then(() => true);
 };
 
-// Gets saved survey drafts from the indexedDBStorage
+// Gets saved survey draft from the indexedDBStorage
 export const getSurveyDrafts = async (
   id: string
 ): Promise<surveyTypeProps | null> => {
@@ -65,6 +67,24 @@ export const getSurveyDrafts = async (
       } else {
         resolve(null);
       }
+    };
+  });
+};
+
+// Gets all saved survey drafts from the indexedDBStorage
+export const getAllSurveyDrafts = async (): Promise<surveyTypeProps[]> => {
+  const dbStore = await openSurveyDraftDB();
+  return new Promise((resolve, reject) => {
+    const transaction = dbStore.transaction(
+      unfinishedSurveysStoreName,
+      "readonly"
+    );
+    const draftRequest = transaction
+      .objectStore(unfinishedSurveysStoreName)
+      .getAll();
+    draftRequest.onerror = () => reject(draftRequest.error);
+    draftRequest.onsuccess = () => {
+      resolve(draftRequest.result as surveyTypeProps[]);
     };
   });
 };
