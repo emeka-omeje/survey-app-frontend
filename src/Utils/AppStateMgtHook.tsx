@@ -2,14 +2,14 @@ import React from "react";
 import {
   QuestionFrameProps,
   sectionTypeProps,
-  surveyDraftTypeProps,
+  surveyTypeProps,
 } from "./dataTypes";
 import {
   QuestionTypeSelectList,
   questionTypeSelectListArray,
 } from "../Components/SurveysComponents/builderPageComponents/QuestionComponents/questionTypeSelectListArray";
 
-export const useAppStateManager = () => {
+export const useAppStateMgtHook = () => {
   const [createNavBTNLabel, setCreateNavBTNLabel] =
     React.useState<string>("Builder");
   const [frameCall, setFrameCall] = React.useState<boolean>(false);
@@ -40,20 +40,27 @@ export const useAppStateManager = () => {
     },
   ]);
 
+  // The surveyID is generated using crypto.randomUUID() to ensure uniqueness
+  const [currentSurveyID] = React.useState<string>(() => {
+    return localStorage.getItem("currentSurveyID") ?? crypto.randomUUID();
+  });
+
   // The state for the title of the survey
   const [surveyTitle, setSurveyTitle] = React.useState<string>("");
+
   // Initialising the survey data
-  const [surveyData, setSurveyData] = React.useState<surveyDraftTypeProps>({
-    id: crypto.randomUUID(),
+  const [surveyData, setSurveyData] = React.useState<surveyTypeProps>({
+    id: currentSurveyID,
     title: surveyTitle || "New survey",
     sections: sections,
-    createdAt: new Date().toISOString(),
-    updatedAt: "",
-    queuedAt: "",
-    draftedAt: "",
-    isPublished: false,
-    isDraft: false,
+    modifiedAt: new Date().toISOString(),
+    // updatedAt: "",
+    // queuedAt: "",
+    // draftedAt: "",
+    // isPublished: false,
+    // isDraft: false,
     isDirty: false,
+    status: "idle",
   });
 
   return {
@@ -72,5 +79,6 @@ export const useAppStateManager = () => {
     createEmptyQuestion,
     sections,
     setSections,
+    currentSurveyID,
   };
 };

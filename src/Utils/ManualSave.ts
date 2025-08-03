@@ -1,32 +1,53 @@
 import { surveyTypeProps } from "./dataTypes";
 import { saveSurveyDraft } from "./IndexDBs/surveyDraftIndexDBStorage";
 // import toast from "react-hot-toast";
-const QUEUE_KEY = "surveySyncQueue";
+const UNPUBLISHED_QUEUE_KEY = "unpublishedSurveySyncQueue";
+const DRAFT_QUEUE_KEY = "draftSurveySyncQueue";
 
-const getSurveyFromQueue = (): [] => {
-  const queue = localStorage.getItem(QUEUE_KEY);
+// Function to get unpublished or drafted surveys from localStorage
+const getSurveysFromQueue = (queue_key: string): [] => {
+  const queue = localStorage.getItem(queue_key);
   return queue ? JSON.parse(queue) : [];
 };
 
-const saveSurveyToQueue = (queue: surveyTypeProps[]) => {
-  localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+// Function to save unpublished or drafted surveys to localStorage
+const saveSurveysToQueue = (queue: surveyTypeProps[], queue_key: string) => {
+  localStorage.setItem(queue_key, JSON.stringify(queue));
 };
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-export const addToSurveyQueue = (surveyData: surveyTypeProps) => {
-  const prevSurveyQueue = getSurveyFromQueue();
-  const updatedQueue = [
+// Function to empty the unpublished or drafted surveys queue
+export const emptyUnplishedSurveyQueue = () => {
+  localStorage.removeItem(UNPUBLISHED_QUEUE_KEY);
+};
+export const emptyDraftSurveyQueue = () => {
+  localStorage.removeItem(DRAFT_QUEUE_KEY);
+};
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Function to add a survey to the draft queue
+export const addToDraftSurveyQueue = (surveyData: surveyTypeProps) => {
+  const prevSurveyQueue = getSurveysFromQueue(DRAFT_QUEUE_KEY);
+  const updatedQueue:surveyTypeProps[] = [
     ...prevSurveyQueue,
-    { ...surveyData, queuedAt: new Date().toISOString() },
+    { ...surveyData, modifiedAt: new Date().toISOString(), status: "offline" },
   ];
-  saveSurveyToQueue(updatedQueue);
+  saveSurveysToQueue(updatedQueue, DRAFT_QUEUE_KEY);
 };
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-export const retryAddToSurveyQueue = async () => {
+export const addToUnpublishedSurveyQueue = (surveyData: surveyTypeProps) => {
+  const prevSurveyQueue = getSurveysFromQueue(UNPUBLISHED_QUEUE_KEY);
+  const updatedQueue: surveyTypeProps[] = [
+    ...prevSurveyQueue,
+    { ...surveyData, modifiedAt: new Date().toISOString(), status: "in-progress" },
+  ];
+  saveSurveysToQueue(updatedQueue, UNPUBLISHED_QUEUE_KEY);
+};
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+export const retryAddToUnpublishedSurveyQueue = async () => {
   if (!navigator.onLine) return;
 
-  const prevSurveyQueue = getSurveyFromQueue();
+  const prevSurveyQueue = getSurveysFromQueue(UNPUBLISHED_QUEUE_KEY);
   if (prevSurveyQueue.length === 0) return;
   try {
     for (const survey of prevSurveyQueue) {
@@ -34,23 +55,28 @@ export const retryAddToSurveyQueue = async () => {
       await saveSurveyDraft(survey); // Later replace with backend API call
     }
     // Clear the queue after successful save
-    saveSurveyToQueue([]);
+    saveSurveysToQueue([], UNPUBLISHED_QUEUE_KEY);
   } catch (error) {
     console.error("Failed sync:", error);
-    saveSurveyToQueue(prevSurveyQueue); // Keep the queue intact if save fails
+    saveSurveysToQueue(prevSurveyQueue, UNPUBLISHED_QUEUE_KEY); // Keep the queue intact if save fails
   }
 };
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-export const emptySurveyQueue = () => {
-  localStorage.removeItem(QUEUE_KEY);
-  // Optionally, you can also notify the user that the queue has been emptied
-  // toast.success("Survey queue has been emptied.");
-};
+export const retryAddToDraftSurveyQueue = async () => {
+  if (!navigator.onLine) return;
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-window.addEventListener("online", retryAddToSurveyQueue);
-window.addEventListener("offline", () => {
-  console.warn("You are offline.");
-  //   console.warn("You are offline. Surveys will be queued for later sync.");
-});
+  const prevSurveyQueue = getSurveysFromQueue(DRAFT_QUEUE_KEY);
+  if (prevSurveyQueue.length === 0) return;
+  try {
+    for (const survey of prevSurveyQueue) {
+      // SaveSurveyDraft is a function that saves the survey to indexedDB
+      await saveSurveyDraft(survey);
+    }
+    // Clear the queue after successful save
+    saveSurveysToQueue([], DRAFT_QUEUE_KEY);
+  } catch (error) {
+    console.error("Failed sync:", error);
+    saveSurveysToQueue(prevSurveyQueue, DRAFT_QUEUE_KEY); // Keep the queue intact if save fails
+  }
+}
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

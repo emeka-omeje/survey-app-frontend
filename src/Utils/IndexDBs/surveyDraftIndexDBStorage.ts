@@ -35,59 +35,104 @@ export const waitForTransactionCompletion = (
 };
 
 // Ensuring draft is saved in the indexedDBStorage
-export const saveSurveyDraft = async (data: surveyTypeProps) => {
-  const dbStore = await openSurveyDraftDB();
-  const transaction = dbStore.transaction(
-    unfinishedSurveysStoreName,
-    "readwrite"
-  );
-  transaction
-    .objectStore(unfinishedSurveysStoreName)
-    .put({ ...data, updatedAt: new Date().toISOString(), status: "draft" } as surveyTypeProps);
-  await waitForTransactionCompletion(transaction).then(() => true);
-};
-
-// Gets saved survey draft from the indexedDBStorage
-export const getSurveyDrafts = async (
-  id: string
-): Promise<surveyTypeProps | null> => {
-  const dbStore = await openSurveyDraftDB();
-  return new Promise((resolve, reject) => {
+export const saveSurveyDraft = async (data: surveyTypeProps): Promise<boolean> => {
+  try {
+    const dbStore = await openSurveyDraftDB();
     const transaction = dbStore.transaction(
       unfinishedSurveysStoreName,
-      "readonly"
+      "readwrite"
     );
-    const draftRequest = transaction
-      .objectStore(unfinishedSurveysStoreName)
-      .get(id);
-    draftRequest.onerror = () => reject(draftRequest.error);
-    draftRequest.onsuccess = () => {
-      if (draftRequest.result) {
-        resolve(draftRequest.result as surveyTypeProps);
-      } else {
-        resolve(null);
-      }
+
+    const store = transaction.objectStore(unfinishedSurveysStoreName);
+
+    // Add timestamp and enforce draft status
+    const payload: surveyTypeProps = {
+      ...data,
+      modifiedAt: new Date().toISOString(),
+      isDirty: false,
+      status: "draft",
     };
-  });
+
+    store.put(payload);
+
+    await waitForTransactionCompletion(transaction);
+
+    return true;
+  } catch (error) {
+    console.error("Failed to save survey draft:", error);
+    // Optionally, report error to monitoring system like Sentry
+    return false;
+  }
 };
+
+
+// Gets saved survey draft from the indexedDBStorage
+export const getSurveyDraftById = async (
+  id: string
+): Promise<surveyTypeProps | null> => {
+  try {
+    const dbStore = await openSurveyDraftDB();
+
+    return await new Promise((resolve, reject) => {
+      const transaction = dbStore.transaction(
+        unfinishedSurveysStoreName,
+        "readonly"
+      );
+      const objectStore = transaction.objectStore(unfinishedSurveysStoreName);
+      const request = objectStore.get(id); // Primary key lookup
+
+      request.onsuccess = () => {
+        const result = request.result;
+        if (result?.status === "draft") {
+          resolve(result as surveyTypeProps);
+        } else {
+          resolve(null); // Not a draft or not found
+        }
+      };
+
+      request.onerror = () => {
+        console.error("IndexedDB error on getSurveyDraftById:", request.error);
+        reject(request.error);
+      };
+    });
+  } catch (err) {
+    console.error("Unexpected failure in getSurveyDraftById:", err);
+    return null;
+  }
+};
+
 
 // Gets all saved survey drafts from the indexedDBStorage
 export const getAllSurveyDrafts = async (): Promise<surveyTypeProps[]> => {
-  const dbStore = await openSurveyDraftDB();
-  return new Promise((resolve, reject) => {
-    const transaction = dbStore.transaction(
-      unfinishedSurveysStoreName,
-      "readonly"
-    );
-    const draftRequest = transaction
-      .objectStore(unfinishedSurveysStoreName)
-      .getAll();
-    draftRequest.onerror = () => reject(draftRequest.error);
-    draftRequest.onsuccess = () => {
-      resolve(draftRequest.result as surveyTypeProps[]);
-    };
-  });
+  try {
+    const dbStore = await openSurveyDraftDB();
+
+    return await new Promise((resolve, reject) => {
+      const transaction = dbStore.transaction(
+        unfinishedSurveysStoreName,
+        "readonly"
+      );
+
+      const store = transaction.objectStore(unfinishedSurveysStoreName);
+      const index = store.index("status");
+      const request = index.getAll("draft");
+
+      request.onsuccess = () => {
+        const results = request.result ?? [];
+        resolve(results as surveyTypeProps[]);
+      };
+
+      request.onerror = () => {
+        console.error("Failed to fetch survey drafts:", request.error);
+        reject(request.error);
+      };
+    });
+  } catch (err) {
+    console.error("Unexpected error during draft retrieval:", err);
+    return []; // Safe fallback
+  }
 };
+
 
 // Deletes a survey draft from the indexedDBStorage
 export const deleteSurveyDraft = async (id: string) => {

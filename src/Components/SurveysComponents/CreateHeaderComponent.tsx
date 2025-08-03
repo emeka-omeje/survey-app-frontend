@@ -1,7 +1,7 @@
 import CreateHeaderNavigation from "./CreateHeaderNavigation";
 import style from "./surveyComponent.module.css";
-import { useAppContext } from "../../Utils/AppContext";
-import { addToSurveyQueue, emptySurveyQueue } from "../../Utils/ManualSave";
+import { useAppStateMgtContext } from "../../Utils/AppContext";
+import { addToUnpublishedSurveyQueue, emptyUnplishedSurveyQueue } from "../../Utils/ManualSave";
 
 const CreateHeaderComponent = () => {
   // const navigationItemArray = [
@@ -14,7 +14,7 @@ const CreateHeaderComponent = () => {
   const navigationStringArray = ["Builder", "Logic", "Permission"];
   //   const [buttonName, setButtonName] = React.useState("Builder");
 
-  const { createNavBTNLabel, setCreateNavBTNLabel, setPublishingStatus, surveyData } = useAppContext();
+  const { createNavBTNLabel, setCreateNavBTNLabel, setPublishingStatus, surveyData } = useAppStateMgtContext();
 
   const handleManualPublishAction = (action: string) => {
     setCreateNavBTNLabel(action)
@@ -28,7 +28,7 @@ const CreateHeaderComponent = () => {
       
       // The logic that should be here below should be the one that sends to backend API to save survey data to server.
       // The data should be removed from the indexDB storage and the localStorage queue.
-      emptySurveyQueue()
+      emptyUnplishedSurveyQueue()
       // Also, the dirty status should be changed from true to false.
       setPublishingStatus('Published');
     } catch (err: unknown) {
@@ -37,7 +37,7 @@ const CreateHeaderComponent = () => {
          errorMessage = err.message;
       }
       console.error('Manual save failed:', errorMessage);
-      addToSurveyQueue(surveyData);
+      addToUnpublishedSurveyQueue(surveyData);
       // This above should add the surveyData back to queue until network is restored
       if (!navigator.onLine || errorMessage === 'offline') {
         setPublishingStatus("Offline");

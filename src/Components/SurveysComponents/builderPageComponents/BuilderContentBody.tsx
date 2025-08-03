@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppContext } from "../../../Utils/AppContext";
+import { useAppStateMgtContext } from "../../../Utils/AppContext";
 import style from "./builderPageComponents.module.css";
 import FormHeader from "./FormHeader";
 import QuestionFrame from "./QuestionComponents/QuestionFrame";
@@ -45,7 +45,7 @@ const BuilderContentBody: React.FC<BuilderContentBodyProps> = ({
   deleteSection,
   // addQuestionFrameToLastSection,
 }) => {
-  const { frameCall, sections, setSurveyTitle } = useAppContext();
+  const { frameCall, sections, setSurveyTitle } = useAppStateMgtContext();
 
   return (
     <div className={style.builderContentBody_main}>

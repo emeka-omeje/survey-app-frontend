@@ -21,6 +21,7 @@ export interface AppContextProps {
   createEmptyQuestion: (props: QuestionTypeSelectList[]) => QuestionFrameProps;
   sections: sectionTypeProps;
   setSections: React.Dispatch<React.SetStateAction<sectionTypeProps>>;
+  currentSurveyID: string
 }
 
 export type QuestionTypeSelectList = {
@@ -50,14 +51,15 @@ export type surveyTypeProps = {
   id: string;
   title: string;
   sections: sectionTypeProps;
-  createdAt: string;
-  updatedAt: string;
-  queuedAt: string;
-  draftedAt: string;
-  isPublished: boolean;
-  isDraft: boolean;
+  modifiedAt: string;
+  // createdAt: string;
+  // updatedAt: string;
+  // queuedAt: string;
+  // draftedAt: string;
+  // isPublished: boolean;
+  // isDraft: boolean;
   isDirty: boolean;
-  status: "draft" | "in-progress" | "published" | "conflict";
+  status: "idle" | "draft" | "in-progress" | "enqueue" | "published" | "conflict" | "offline";
 };
 // Type for AutoSaveHook Props
 export type AutoDraftSaveHookProps = {
