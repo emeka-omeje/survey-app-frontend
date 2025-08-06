@@ -57,8 +57,14 @@ export const useAutoDraftSaveHook = ({
         toastIdRef.current = null;
       } catch (error) {
         console.error('Auto-save (local) failed:', error);
-        addToDraftSurveyQueue(data)
-        toast.error("Autosave failed", { id: toastId });
+        if (!navigator.onLine) {
+          addToDraftSurveyQueue(data)
+          // toast.error('Offline: will sync when back online.', { id: toastIdRef.current });
+          toast.error('Offline: will sync when back online.', { id: toastId });
+        } else {
+          toast.error("Autosave failed", { id: toastId });
+        }
+        toastIdRef.current = null;
       }
     }, delay);
 

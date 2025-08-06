@@ -21,7 +21,8 @@ export interface AppContextProps {
   createEmptyQuestion: (props: QuestionTypeSelectList[]) => QuestionFrameProps;
   sections: sectionTypeProps;
   setSections: React.Dispatch<React.SetStateAction<sectionTypeProps>>;
-  currentSurveyID: string
+  currentSurveyID: string;
+  isNetworkConnected: boolean
 }
 
 export type QuestionTypeSelectList = {

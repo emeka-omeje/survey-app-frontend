@@ -8,6 +8,7 @@ import {
   QuestionTypeSelectList,
   questionTypeSelectListArray,
 } from "../Components/SurveysComponents/builderPageComponents/QuestionComponents/questionTypeSelectListArray";
+import { useNetworkConnectivityHook } from "./NetworkConnectivityHook";
 
 export const useAppStateMgtHook = () => {
   const [createNavBTNLabel, setCreateNavBTNLabel] =
@@ -63,6 +64,10 @@ export const useAppStateMgtHook = () => {
     status: "idle",
   });
 
+
+  // Network connection hook parsed here
+   const {isNetworkConnected} = useNetworkConnectivityHook()
+
   return {
     createNavBTNLabel,
     setCreateNavBTNLabel,
@@ -80,5 +85,6 @@ export const useAppStateMgtHook = () => {
     sections,
     setSections,
     currentSurveyID,
+    isNetworkConnected
   };
 };
