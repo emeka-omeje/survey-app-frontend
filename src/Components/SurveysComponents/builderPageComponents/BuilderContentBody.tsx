@@ -20,7 +20,6 @@ import { IoMdAddCircleOutline } from "react-icons/io"; //for add question
 //     questionTypeIcon: IconType | null
 //   }[];
 // }[];
-
 type BuilderContentBodyProps = {
   // totalNumOfQuestionArray: number;
   addSection: (prop: QuestionTypeSelectList[]) => void;
