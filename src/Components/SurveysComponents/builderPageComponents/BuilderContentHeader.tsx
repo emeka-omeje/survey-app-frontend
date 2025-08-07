@@ -4,7 +4,7 @@ import { RiStickyNoteAddFill } from "react-icons/ri"; //for add page
 import { TbSection } from "react-icons/tb"; //for add section
 import ListEachItemOtherProps from "../../ListEachItemOtherProps";
 import style from "./builderPageComponents.module.css";
-import { useAppContext } from "../../../Utils/AppContext";
+import { useAppStateMgtContext } from "../../../Utils/AppContext";
 // import { IconType } from "react-icons";
 import {
   QuestionTypeSelectList,
@@ -20,16 +20,16 @@ import {
 type BuilderContentHeaderProps = {
   //   onAddQuestion: () => void;
   addSection: (prop: QuestionTypeSelectList[]) => void;
-    addQuestionFrameToSection: (sectionId: string) => void;
-    addQuestionFrameToLastSection: () => void;
+  addQuestionFrameToSection: (sectionId: string) => void;
+  addQuestionFrameToLastSection: () => void;
 };
 
 const BuilderContentHeader: React.FC<BuilderContentHeaderProps> = ({
   //   onAddQuestion,
   addSection,
-    addQuestionFrameToLastSection,
+  addQuestionFrameToLastSection,
 }) => {
-  const { setFrameCall } = useAppContext();
+  const { setFrameCall } = useAppStateMgtContext();
 
   return (
     <span className={style.builderContentHeader_main}>
