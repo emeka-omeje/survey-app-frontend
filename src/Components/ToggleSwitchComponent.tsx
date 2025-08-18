@@ -1,31 +1,36 @@
 import React from "react";
 import style from "./components.module.css";
+import { useBuilderPageFxns } from "../Utils/useBuilderPageFxns";
+// import { useAppStateMgtContext } from "../Utils/AppContext";
 
 type ToggleSwitchProps = {
-  initialState?: boolean;
-  onChange?: (state: boolean) => void;
+    sectionId: string;
+  questionId: string;
+  // initialState?: boolean;
+  // onHandleQuestionRequiredChange: (state: boolean, sectionId: string, questionId: string) => void;
 };
 
 const ToggleSwitchComponent: React.FC<ToggleSwitchProps> = ({
-  initialState = false,
-  onChange,
+sectionId, questionId
 }) => {
-  const [isOn, setIsOn] = React.useState(initialState);
+  // const { setSurveyData} = useAppStateMgtContext();
+  const { handleQuestionRequiredChange } = useBuilderPageFxns();
+  const [isRequired, setIsRequired] = React.useState<boolean>(false);
 
   const handleToggle = () => {
-    setIsOn((prevState) => {
+    setIsRequired((prevState) => {
       const newState = !prevState;
-      if (onChange) onChange(newState);
+      handleQuestionRequiredChange(newState, sectionId, questionId);
       return newState;
     });
   };
 
   return (
     <span
-      className={`${style.toggleSwitch} ${isOn ? style.on : style.off}`}
+      className={`${style.toggleSwitch} ${isRequired ? style.on : style.off}`}
       onClick={handleToggle}
       role="button"
-      aria-pressed={isOn}
+      aria-pressed={isRequired}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {

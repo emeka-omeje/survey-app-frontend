@@ -1,0 +1,61 @@
+/* LogicTypeSelectComponent CSS */
+.logicTypeSelectList_wrapper,
+.logicTypeDisplay_wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* gap: 18px; */
+  padding: 14px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  list-style-type: none;
+  /* margin: 10px; */
+}
+.logicTypeSelectList_wrapper {
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+}
+.logicTypeDisplay_wrapper {
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 20px 30px;
+}
+
+.logic_li {
+  padding: 20px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  color: var(--default-color);
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: var(--light-grey);
+    color: var(--color-background);
+  }
+}
+
+.logicLink_active {
+  background-color: var(--navy-blue);
+  color: var(--color-background);
+  &:hover {
+    background-color: var(--navy-blue);
+    color: var(--color-background);
+  }
+}
+.logicLink_inactive {
+  background-color: transparent;
+  color: var(--primary-black);
+
+  &:hover {
+    /* background-color: var(--color-primary-alt); */
+    background-color: var(--light-grey);
+    color: var(--primary-black);
+  }
+}

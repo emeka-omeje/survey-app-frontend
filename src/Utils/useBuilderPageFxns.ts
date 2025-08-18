@@ -105,6 +105,32 @@ export const useBuilderPageFxns = () => {
     );
   };
 
+
+
+  const handleQuestionRequiredChange = (
+    isRequired: boolean,
+    sectionId: string,
+    questionId: string,
+  ) => {
+    setSections((prev) =>
+      prev.map((section) =>
+        section.id === sectionId
+          ? {
+              ...section,
+              questionFrames: section.questionFrames.map((questionFrame) =>
+                questionFrame.id === questionId
+                  ? {
+                    ...questionFrame,
+                    required: isRequired,
+                    }
+                  : questionFrame
+              ),
+            }
+          : section
+      )
+    );
+  };
+
   // Function to remove a question frame from a specific section
   // It takes the section ID and question ID as parameters.
   // It updates the state of sections by filtering out the question frame with the specified ID.
@@ -156,5 +182,6 @@ export const useBuilderPageFxns = () => {
     addQuestionFrameToLastSection,
     chooseDiffQuestionType,
     onRemoveQuestionFrame,
+    handleQuestionRequiredChange
   };
 };

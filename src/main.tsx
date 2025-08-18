@@ -7,6 +7,6 @@ import { Toaster } from "react-hot-toast";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <InstantRoutes />
-    <Toaster position="top-right" reverseOrder={false} />
+    <Toaster position="top-center" reverseOrder={false} />
   </React.StrictMode>
 );

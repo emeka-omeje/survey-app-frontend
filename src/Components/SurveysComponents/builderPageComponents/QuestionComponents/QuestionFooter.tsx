@@ -5,22 +5,31 @@ import { MdDeleteOutline } from "react-icons/md";
 import ListEachItemOtherProps from "../../../ListEachItemOtherProps";
 import ToggleSwitchComponent from "../../../ToggleSwitchComponent";
 import { IoMdMore } from "react-icons/io";
+import { QuestionFooterPropsType } from "../../../../Utils/dataTypes";
+import { MdDragHandle } from "react-icons/md";
 
-type QuestionFooterPropsType = {
-  sectionId: string;
-  questionId: string;
-  onRemoveQuestionFrame: (
-    sectionId: string,
-    questionId: string,
-  ) => void;
-};
+const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
+  sectionId,
+  questionId,
+  onRemoveQuestionFrame,
+  dragHandleProps,
+  itemIndex,
+  sectionIndex,
+  totalSections
+}) => {
+  // if (!sectionIndex) return null;
+  const questionNumber = totalSections === 1
+      ? `Q${itemIndex + 1}`
+      : `Q${sectionIndex + 1}.${itemIndex + 1}`;
 
-const QuestionFooter: React.FC<QuestionFooterPropsType> = ({sectionId, questionId, onRemoveQuestionFrame}) => {
-// const QuestionFooter: React.FC = () => {
-  const [assignedPointValue, setAssignedPointValue] = React.useState(0);
   return (
     <div className={style.questionInputFooter_wrapper}>
       <div className={style.questionInputFooter_main}>
+
+          <h4>{questionNumber}</h4>
+
+
+        {/* <div className={style.questionInputFooter_main}>
         <label htmlFor="assignedPoint">
           <i>Assign point:</i>
         </label>
@@ -30,6 +39,19 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({sectionId, questionI
           value={assignedPointValue}
           onChange={(e) => setAssignedPointValue(Number(e.target.value))}
         />
+      </div> */}
+      </div>
+      <div
+        {...dragHandleProps.attributes}
+        {...dragHandleProps.listeners}
+        style={{
+          cursor: "grab",
+          padding: "0 8px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <MdDragHandle style={{ fontSize: "24px", color: `var(--navy-blue)` }} />
       </div>
       <div className={style.questionInputFooter_alt}>
         <ListEachItemOtherProps
@@ -39,17 +61,20 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({sectionId, questionI
           fontSize="10px"
         />
         <span onClick={() => onRemoveQuestionFrame(sectionId, questionId)}>
-        <ListEachItemOtherProps
-          Icon={MdDeleteOutline}
-          toolTip="Delete"
-          IconSize="24px"
-          fontSize="10px"
-          // getCallBack={onRemoveQuestionFrame}
-        />
+          <ListEachItemOtherProps
+            Icon={MdDeleteOutline}
+            toolTip="Delete"
+            IconSize="24px"
+            fontSize="10px"
+            // getCallBack={onRemoveQuestionFrame}
+          />
         </span>
         <span className={style.requireToggle}>
           <p>Required</p>
-          <ToggleSwitchComponent />
+          <ToggleSwitchComponent
+            sectionId={sectionId}
+            questionId={questionId}
+          />
         </span>
         <ListEachItemOtherProps
           Icon={IoMdMore}

@@ -22,11 +22,6 @@ import {
   HomeAppLayout,
   ItemComponentLayout,
   CreateSurvey,
-  // BuilderPage,
-  // PreviewPage,
-  // LogicPage,
-  // DistributePage,
-  // FeedbackPage,
 } from "./LazyRoutes";
 import ErrorPage from "../ErrorPage";
 import AuthWrapperLayout from "../Layouts/AuthLayouts/AuthWrapperLayout";

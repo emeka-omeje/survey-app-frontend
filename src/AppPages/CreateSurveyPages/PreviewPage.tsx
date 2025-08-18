@@ -1,14 +1,8 @@
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom";
 
+const PreviewPage = () => {
+  const location = useLocation();
+  return <section>PreviewPage {location.pathname}</section>;
+};
 
-const PreviewPage  = ()=>{
-
-    const location = useLocation()
-    return(
-        <section>
-           PreviewPage {location.pathname}
-        </section>
-    )
-}
-
-export default PreviewPage
+export default PreviewPage;

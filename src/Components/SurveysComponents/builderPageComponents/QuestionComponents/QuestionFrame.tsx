@@ -5,26 +5,19 @@ import style from "./questionComponents.module.css";
 // import { IconType } from "react-icons";
 import QuestionInputType from "./QuestionInputType";
 import QuestionFooter from "./QuestionFooter";
-import { QuestionTypeSelectList } from "./questionTypeSelectListArray";
-import { QuestionFrameProps } from "../../../../Utils/dataTypes";
+// import { QuestionTypeSelectList } from "./questionTypeSelectListArray";
+import { QuestionFrameComponentProps } from "../../../../Utils/dataTypes";
 
 
-type QuestionFrameComponentProps = {
-  sectionId: string;
-  questionType: QuestionFrameProps;
-  chooseDiffQuestionType: (
-    sectionId: string,
-    questionId: string,
-    selectedType: QuestionTypeSelectList
-  ) => void;
-  onRemoveQuestionFrame: (sectionId: string, questionId: string) => void;
-};
 
 const QuestionFrame: React.FC<QuestionFrameComponentProps> = ({
   sectionId,
-  chooseDiffQuestionType,
   questionType,
   onRemoveQuestionFrame,
+  dragHandleProps,
+  itemIndex,
+  sectionIndex,
+  totalSections
 }) => {
   // const [questionType, setQuestionType] =
   //   React.useState<QuestionTypeSelectProps>({
@@ -40,13 +33,17 @@ const QuestionFrame: React.FC<QuestionFrameComponentProps> = ({
         <QuestionTypeSelect
           sectionId={sectionId}
           questionType={questionType}
-          chooseDiffQuestionType={chooseDiffQuestionType}
+          // chooseDiffQuestionType={chooseDiffQuestionType}
         />
       </div>
       <QuestionFooter
         sectionId={sectionId}
         questionId={questionType.id}
         onRemoveQuestionFrame={onRemoveQuestionFrame}
+        dragHandleProps={dragHandleProps}
+        itemIndex={itemIndex}
+        sectionIndex={sectionIndex}
+        totalSections={totalSections}
       />
     </section>
   );

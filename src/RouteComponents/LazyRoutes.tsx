@@ -28,28 +28,8 @@ const ItemComponentLayout = React.lazy(
 const CreateSurvey = React.lazy(
   () => import("../Layouts/CreateSurveyLayouts/CreateSurvey")
 );
-const BuilderPage = React.lazy(
-  () => import("../AppPages/CreateSurveyPages/BuilderPage")
-);
-const LogicPage = React.lazy(
-  () => import("../AppPages/CreateSurveyPages/LogicPage")
-);
-const DistributePage = React.lazy(
-  () => import("../AppPages/CreateSurveyPages/DistributePage")
-);
-const FeedbackPage = React.lazy(
-  () => import("../AppPages/CreateSurveyPages/FeedbackPage")
-);
-const PreviewPage = React.lazy(
-  () => import("../AppPages/CreateSurveyPages/PreviewPage")
-);
 
 export {
-  PreviewPage,
-  BuilderPage,
-  LogicPage,
-  DistributePage,
-  FeedbackPage,
   CreateSurvey,
   ItemComponentLayout,
   OnboardingLayout,

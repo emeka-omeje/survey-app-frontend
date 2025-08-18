@@ -92,7 +92,7 @@ const QuestionInputFrame: React.FC<QuestionInputFramePropsType> = ({
         <DateTimeFileInputOption questionType="time" />
       ) : questionType === "file-upload" ? (
         <DateTimeFileInputOption questionType="file-upload" />
-      ): null}
+      ) : null}
     </section>
   );
 };

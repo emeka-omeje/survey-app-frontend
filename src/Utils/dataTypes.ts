@@ -1,4 +1,7 @@
-import { IconType } from "react-icons";
+// import { IconType } from "react-icons";
+import { DraggableAttributes } from "@dnd-kit/core";
+import { IconName } from "../Components/SurveysComponents/builderPageComponents/QuestionComponents/questionTypeSelectListArray";
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 // Interface for APP Contexts
 export interface AppContextProps {
@@ -6,8 +9,8 @@ export interface AppContextProps {
   setCreateNavBTNLabel: React.Dispatch<React.SetStateAction<string>>;
   frameCall: boolean;
   setFrameCall: React.Dispatch<React.SetStateAction<boolean>>;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDropDownCardOpen: boolean;
+  setIsDropDownCardOpen: React.Dispatch<React.SetStateAction<boolean>>;
   publishingStatus: "Idle" | "Publishing" | "Published" | "Error" | "Offline";
   setPublishingStatus: React.Dispatch<
     React.SetStateAction<
@@ -22,23 +25,37 @@ export interface AppContextProps {
   sections: sectionTypeProps;
   setSections: React.Dispatch<React.SetStateAction<sectionTypeProps>>;
   currentSurveyID: string;
-  isNetworkConnected: boolean
+  isNetworkConnected: boolean;
+  accountUser: string | null;
+  setAccountUser: React.Dispatch<React.SetStateAction<string | null>>;
+  surveyCreator: string | null;
+  setSurveyCreator: React.Dispatch<React.SetStateAction<string | null>>;
+  hydrated: boolean;
+  setHydrated: React.Dispatch<React.SetStateAction<boolean>>;
+  logicNavBTNLabel: string;
+  setLogicNavBTNLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// export type QuestionTypeSelectList = {
+//   value: string;
+//   label: string;
+//   icon: IconType | null;
+// };
 export type QuestionTypeSelectList = {
   value: string;
   label: string;
-  icon: IconType | null;
+  icon: IconName | null;
 };
 
 // This defines the structure of a survey section & question frames
 export type QuestionFrameProps = {
   id: `${string}-${string}-${string}-${string}-${string}`;
   questionText: string;
-  assignedPoint?: number; // Optional property for assigned number
+  assignedPoint: number; // Optional property for assigned number
   questionTypeValue: string;
   questionTypeLabel: string;
-  questionTypeIcon: IconType | null;
+  questionTypeIcon: IconName | null;
+  required: boolean; // Optional property for required status
 };
 
 export type sectionTypeProps = {
@@ -47,20 +64,48 @@ export type sectionTypeProps = {
   questionFrames: QuestionFrameProps[];
 }[];
 
+// QuestionFrameComponentProps defines the props for QuestionFrame component
+// Used: QuestionFrame.tsx
+export type QuestionFrameComponentProps = {
+  sectionId: string;
+  questionType: QuestionFrameProps;
+  onRemoveQuestionFrame: (sectionId: string, questionId: string) => void;
+  dragHandleProps: DragHandleProps;
+  itemIndex: number;
+  sectionIndex: number;
+  totalSections: number;
+};
+
+// QuestionFooterPropsType defines the props for QuestionFooter component
+// Used: QuestionFooter.tsx
+export type QuestionFooterPropsType = {
+  sectionId: string;
+  questionId: string;
+  onRemoveQuestionFrame: (sectionId: string, questionId: string) => void;
+  dragHandleProps: DragHandleProps;
+  itemIndex: number;
+  sectionIndex: number;
+  totalSections: number;
+};
+
 // This defines the structure of a survey draft
 export type surveyTypeProps = {
   id: string;
   title: string;
   sections: sectionTypeProps;
   modifiedAt: string;
-  // createdAt: string;
-  // updatedAt: string;
-  // queuedAt: string;
-  // draftedAt: string;
-  // isPublished: boolean;
-  // isDraft: boolean;
   isDirty: boolean;
-  status: "idle" | "draft" | "in-progress" | "enqueue" | "published" | "conflict" | "offline";
+  status: "idle"
+    | "draft"
+    | "in-progress"
+    | "enqueue"
+    | "published"
+    | "conflict"
+    | "offline";
+  accountUser?: string | null; // Property for account user
+  surveyCreator?: string | null; // Optional property for survey creator
+  // point?: number; // Optional property for total points
+  // required?: boolean; // Optional property for required status
 };
 // Type for AutoSaveHook Props
 export type AutoDraftSaveHookProps = {
@@ -74,4 +119,26 @@ export interface DraftMetadata {
   id: string;
   title: string;
   updatedAt: string;
+}
+
+// Interface for Sortable List Abstract Component Props
+export type SortableListProps<T> = {
+  items: T[];
+  getId: (item: T) => string;
+  onReorder: (newItems: T[]) => void;
+  renderItem: (
+    item: T,
+    index: number,
+    dragHandleProps: DragHandleProps
+  ) => React.ReactNode;
+};
+
+// Interface for Drag Handle Props for Sortable List
+export interface DragHandleProps {
+  attributes: DraggableAttributes;
+  listeners?: SyntheticListenerMap;
+}
+
+export interface LogicTypeSelectProps {
+  logicTypeSelectArray: string[];
 }

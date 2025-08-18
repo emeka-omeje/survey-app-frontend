@@ -10,14 +10,15 @@ export const useAutoDraftSaveHook = ({
   delay,
 }: AutoDraftSaveHookProps): void => {
   const timeoutRef = React.useRef<number | null>(null);
-  const onMounted = React.useRef<boolean>(true);
+  // const onMounted = React.useRef<boolean>(true);
   const prevSerializedRef = React.useRef<string>(JSON.stringify(data));
   const toastIdRef = React.useRef<string | null>(null);
+  const firstRunRef = React.useRef(true);
 
   // Cleanup on unmount
   React.useEffect(() => {
     return () => {
-      onMounted.current = false;
+      // onMounted.current = false;
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       toast.dismiss(toastIdRef.current ?? undefined);
       toastIdRef.current = null;
@@ -31,25 +32,34 @@ export const useAutoDraftSaveHook = ({
 
     timeoutRef.current = setTimeout(async () => {
       try {
-        if (!toastIdRef.current) {
-          toastIdRef.current = toast.loading("Saving...");
+        const currentSerialized = JSON.stringify(data);
+
+        if (firstRunRef.current === true) {
+          firstRunRef.current = false;
+          prevSerializedRef.current = currentSerialized;
+          return;
         }
 
-        const currentSerialized = JSON.stringify(data);
         if (currentSerialized === prevSerializedRef.current) {
           toast.dismiss(toastIdRef.current ?? undefined);
           toastIdRef.current = null;
           return;
-        };
+        }
+
+        if (!toastIdRef.current) {
+          toastIdRef.current = toast.loading("Saving...");
+        }
+
         prevSerializedRef.current = currentSerialized;
 
-        await saveSurveyDraft(data);
+        const savedToDraftSuccess = await saveSurveyDraft(data);
         markClean();
 
-        if (!onMounted.current) return;
-
-        toast.success("Autosaved survey draft", { id: toastIdRef.current });
-        toastIdRef.current = null;
+        if (savedToDraftSuccess) {
+          toast.success("Draft saved", { id: toastIdRef.current });
+        } else {
+          toast.error("Draft not saved", { id: toastIdRef.current });
+        }
       } catch (error) {
         console.error("Auto-save (local) failed:", error);
 
@@ -63,12 +73,13 @@ export const useAutoDraftSaveHook = ({
             id: toastIdRef.current ?? undefined,
           });
         }
-        toastIdRef.current = null;
+      } finally {
+        toastIdRef.current = null; // ensure toastId is cleared after handling
       }
     }, delay);
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [data.isDirty, delay]);
+  }, [data, data.isDirty, delay]);
 };

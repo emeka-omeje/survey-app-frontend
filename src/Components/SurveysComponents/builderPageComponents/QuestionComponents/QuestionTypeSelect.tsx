@@ -1,42 +1,37 @@
 import React from "react";
 import style from "./questionComponents.module.css";
 import { MdOutlineArrowDropDown } from "react-icons/md";
-import { QuestionTypeSelectList, questionTypeSelectListArray } from "./questionTypeSelectListArray";
-import { QuestionFrameProps } from "../../../../Utils/dataTypes";
+import {
+  iconRegistry,
+  questionTypeSelectListArray,
+} from "./questionTypeSelectListArray";
+import {
+  QuestionFrameProps,
+  QuestionTypeSelectList,
+} from "../../../../Utils/dataTypes";
+import { useBuilderPageFxns } from "../../../../Utils/useBuilderPageFxns";
 
 type QuestionTypeSelectPropsType = {
   sectionId: string;
   questionType: QuestionFrameProps;
-  chooseDiffQuestionType: (
-    sectionId: string,
-    questionId: string,
-    selectedType: QuestionTypeSelectList
-  ) => void;
+  // chooseDiffQuestionType: (
+  //   sectionId: string,
+  //   questionId: string,
+  //   selectedType: QuestionTypeSelectList
+  // ) => void;
 };
 
 const QuestionTypeSelect: React.FC<QuestionTypeSelectPropsType> = ({
   sectionId,
   questionType,
-  chooseDiffQuestionType,
 }) => {
-  // const questionTypesArray: QuestionTypeSelectList[] = [
-  //   // { value: "", label: "Select question type", icon: null},
-  //   {
-  //     value: "multiple-choice",
-  //     label: "Multiple choice",
-  //     icon: RiCheckboxBlankCircleFill,
-  //   },
-  //   { value: "checkboxes", label: "Checkboxes", icon: MdOutlineCheckBox },
-  //   { value: "dropdown", label: "Dropdown", icon: IoIosArrowDropdown },
-  //   { value: "short-answer", label: "Short answer", icon: MdOutlineShortText },
-  //   { value: "long-answer", label: "Long answer", icon: BsTextParagraph },
-  //   { value: "rating", label: "Rating", icon: IoMdStarOutline },
-  //   { value: "date", label: "Date", icon: RiCalendarEventLine },
-  //   { value: "time", label: "Time", icon: PiTimerBold },
-  //   { value: "file-upload", label: "File upload", icon: MdOutlineFileUpload },
-  // ];
+  const {chooseDiffQuestionType } = useBuilderPageFxns();
   const [isOpen, setIsOpen] = React.useState(false);
-  //   const [selected, setSelected] = React.useState("Select question type");
+
+  // we are retrieving the icon from the iconRegistry based on the questionTypeIcon
+  const IconComponent = questionType.questionTypeIcon
+    ? iconRegistry[questionType.questionTypeIcon]
+    : null;
 
   const handleSelect = (option: QuestionTypeSelectList) => {
     chooseDiffQuestionType(sectionId, questionType.id, option);
@@ -44,21 +39,17 @@ const QuestionTypeSelect: React.FC<QuestionTypeSelectPropsType> = ({
     // getQuestionTypeCallBack(option.value);
   };
 
-  // React.useEffect(() => {
-  //   getQuestionTypeCallBack(questionTypesArray[0]);
-  // }, []);
-
   return (
     <span className={style.dropdown}>
       <button className={style.dropdown_btn} onClick={() => setIsOpen(!isOpen)}>
         <span>
-          {questionType.questionTypeIcon !== null ? (
+          {IconComponent !== null ? (
             questionType.questionTypeLabel === "Multiple choice" ? (
               <div className={style.multiple_choice_icon}>
-                <questionType.questionTypeIcon size={16} />
+                <IconComponent size={16} />
               </div>
             ) : (
-              <questionType.questionTypeIcon size={20} />
+              <IconComponent size={20} />
             )
           ) : null}
           {questionType.questionTypeLabel}
@@ -67,26 +58,33 @@ const QuestionTypeSelect: React.FC<QuestionTypeSelectPropsType> = ({
       </button>
       {isOpen && (
         <ul className={style.dropdown_menu}>
-          {questionTypeSelectListArray.map((option, optionIndex) => (
-            <li
-              key={optionIndex}
-              className={
-                option.label === questionType.questionTypeLabel ? style.dropdown_chosen : ""
-              }
-              onClick={() => handleSelect(option)}
-            >
-              {option.icon !== null ? (
-                option.label === "Multiple choice" ? (
-                  <div className={style.multiple_choice_icon}>
-                    <option.icon size={16} />
-                  </div>
-                ) : (
-                  <option.icon size={20} />
-                )
-              ) : null}
-              {option.label}
-            </li>
-          ))}
+          {questionTypeSelectListArray.map((option, optionIndex) => {
+            // we then retrieve the icon from the iconRegistry based on the option's icon
+            const OptionIcon = option.icon ? iconRegistry[option.icon] : null;
+            return (
+              <li
+                key={optionIndex}
+                className={
+                  option.label === questionType.questionTypeLabel
+                    ? style.dropdown_chosen
+                    : ""
+                }
+                onClick={() => handleSelect(option)}
+              >
+                {OptionIcon ? (
+                  option.label === "Multiple choice" ? (
+                    // const OptionIcon = iconRegistry[option.icon];
+                    <div className={style.multiple_choice_icon}>
+                      <OptionIcon size={16} />
+                    </div>
+                  ) : (
+                    <OptionIcon size={20} />
+                  )
+                ) : null}
+                {option.label}
+              </li>
+            );
+          })}
         </ul>
       )}
     </span>

@@ -7,9 +7,9 @@ import style from "./builderPageComponents.module.css";
 import { useAppStateMgtContext } from "../../../Utils/AppContext";
 // import { IconType } from "react-icons";
 import {
-  QuestionTypeSelectList,
   questionTypeSelectListArray,
 } from "./QuestionComponents/questionTypeSelectListArray";
+import { QuestionTypeSelectList } from "../../../Utils/dataTypes";
 
 // type QuestionTypeSelectList = {
 //   value: string;
