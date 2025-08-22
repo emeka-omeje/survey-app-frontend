@@ -7,6 +7,8 @@ import ToggleSwitchComponent from "../../../ToggleSwitchComponent";
 import { IoMdMore } from "react-icons/io";
 import { QuestionFooterPropsType } from "../../../../Utils/dataTypes";
 import { MdDragHandle } from "react-icons/md";
+// import { useAppStateMgtContext } from "../../../../Utils/AppContext";
+import { useBuilderPageFxns } from "../../../../Utils/useBuilderPageFxns";
 
 const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
   sectionId,
@@ -15,19 +17,18 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
   dragHandleProps,
   itemIndex,
   sectionIndex,
-  totalSections
+  totalSections,
 }) => {
+  // const { surveyData, setSurveyData } = useAppStateMgtContext();
+  const {getQuestionNumber} = useBuilderPageFxns()
+
   // if (!sectionIndex) return null;
-  const questionNumber = totalSections === 1
-      ? `Q${itemIndex + 1}`
-      : `Q${sectionIndex + 1}.${itemIndex + 1}`;
+  const questionNumber = getQuestionNumber(sectionIndex, itemIndex, totalSections);
 
   return (
     <div className={style.questionInputFooter_wrapper}>
       <div className={style.questionInputFooter_main}>
-
-          <h4>{questionNumber}</h4>
-
+        <h4>{questionNumber}</h4>
 
         {/* <div className={style.questionInputFooter_main}>
         <label htmlFor="assignedPoint">

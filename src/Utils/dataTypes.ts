@@ -34,6 +34,12 @@ export interface AppContextProps {
   setHydrated: React.Dispatch<React.SetStateAction<boolean>>;
   logicNavBTNLabel: string;
   setLogicNavBTNLabel: React.Dispatch<React.SetStateAction<string>>;
+  logicIfQuestion: string | null;
+  setLogicIfQuestion: React.Dispatch<React.SetStateAction<string | null>>;
+  logicConditionStatement: string | null;
+  setLogicConditionStatement: React.Dispatch<React.SetStateAction<string | null>>;
+  logicConditionValue: string | number | boolean | null;
+  setLogicConditionValue: React.Dispatch<React.SetStateAction<string | number | boolean | null>>;
 }
 
 // export type QuestionTypeSelectList = {
@@ -55,7 +61,8 @@ export type QuestionFrameProps = {
   questionTypeValue: string;
   questionTypeLabel: string;
   questionTypeIcon: IconName | null;
-  required: boolean; // Optional property for required status
+  required: boolean;
+  logic?: LogicCondition[];
 };
 
 export type sectionTypeProps = {
@@ -88,6 +95,24 @@ export type QuestionFooterPropsType = {
   totalSections: number;
 };
 
+// Logic Rule Props Types
+export type LogicCondition = {
+  id: string; // unique id for this condition
+  questionId: QuestionFrameProps["id"]; // which question it targets
+  operator: "equals" | "not_equals" | "greater_than" | "less_than" | "includes";
+  value: string | number | boolean;
+  logicAction: LogicAction[]
+};
+export type LogicAction = {
+  type: "show" | "hide" | "skip_to" | "end_survey";
+  targetSectionId?: string;
+  targetQuestionId?: string;
+};
+// export type QuestionLogic = {
+//   conditions: LogicCondition[];
+//   actions: LogicAction[];
+// };
+
 // This defines the structure of a survey draft
 export type surveyTypeProps = {
   id: string;
@@ -104,9 +129,8 @@ export type surveyTypeProps = {
     | "offline";
   accountUser?: string | null; // Property for account user
   surveyCreator?: string | null; // Optional property for survey creator
-  // point?: number; // Optional property for total points
-  // required?: boolean; // Optional property for required status
 };
+
 // Type for AutoSaveHook Props
 export type AutoDraftSaveHookProps = {
   data: surveyTypeProps;
@@ -134,11 +158,34 @@ export type SortableListProps<T> = {
 };
 
 // Interface for Drag Handle Props for Sortable List
-export interface DragHandleProps {
+export type DragHandleProps =  {
   attributes: DraggableAttributes;
   listeners?: SyntheticListenerMap;
 }
 
-export interface LogicTypeSelectProps {
+export type LogicTypeSelectProps = {
   logicTypeSelectArray: string[];
 }
+
+// export type getQuestionNumberProps = {
+//   sectionIndex: number;
+//   itemIndex: number;
+//   totalSections: number;
+// }
+
+
+// Interface for AvailableQuestionListFlatArray
+// This is used in AvailableQuestionListFlatArray.tsx
+export type AvailableQuestionListFlatArrayProps = {
+  questionFrame: QuestionFrameProps;
+  ownSectionProps: {
+    sectionId: string;
+    sectionTitle: string;
+  };
+  questionSectionIndexNumber: number;
+  // questionSectionID: string;
+  // questionID: string;
+  questionItemIndexNumber: number;
+  questionNumber: string;
+}
+

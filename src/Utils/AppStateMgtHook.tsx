@@ -66,6 +66,11 @@ export const useAppStateMgtHook = () => {
     surveyCreator: surveyCreator || "Anonymous",
   });
 
+      const [logicIfQuestion, setLogicIfQuestion] = React.useState<string | null>(null);
+      const [logicConditionStatement, setLogicConditionStatement] = React.useState<string | null>(null);
+      const [logicConditionValue, setLogicConditionValue] = React.useState<string | number | boolean | null>(null);
+  
+
   // Network connection hook parsed here
   const { isNetworkConnected } = useNetworkConnectivityHook();
 
@@ -95,5 +100,11 @@ export const useAppStateMgtHook = () => {
     setHydrated,
     logicNavBTNLabel,
     setLogicNavBTNLabel,
+    logicIfQuestion,
+    setLogicIfQuestion,
+    logicConditionStatement,
+    setLogicConditionStatement,
+    logicConditionValue,
+    setLogicConditionValue,
   };
 };

@@ -25,7 +25,7 @@ const QuestionTypeSelect: React.FC<QuestionTypeSelectPropsType> = ({
   sectionId,
   questionType,
 }) => {
-  const {chooseDiffQuestionType } = useBuilderPageFxns();
+  const { chooseDiffQuestionType } = useBuilderPageFxns();
   const [isOpen, setIsOpen] = React.useState(false);
 
   // we are retrieving the icon from the iconRegistry based on the questionTypeIcon

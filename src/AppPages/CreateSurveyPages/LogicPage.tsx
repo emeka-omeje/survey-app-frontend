@@ -1,6 +1,6 @@
+import style from "./createSurveyPages.module.css";
 import LogicTypeRouter from "../../Components/SurveysComponents/LogicPageComponents/LogicTypeRouter";
 import LogicTypeSelectComponent from "../../Components/SurveysComponents/LogicPageComponents/LogicTypeSelectComponent";
-import style from "./createSurveyPages.module.css";
 
 const LogicPage = () => {
   const logicTypeSelectArray: string[] = [

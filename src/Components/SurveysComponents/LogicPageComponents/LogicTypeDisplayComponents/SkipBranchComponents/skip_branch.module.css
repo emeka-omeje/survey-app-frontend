@@ -1,9 +1,105 @@
-
+/* SkipBranch Component */
+.skipBranchLogic_wrapper {
+    /* position: relative; */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 
 
 /* AddRuleModal Component */
+.addRuleModal {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    /* transform: translate(-50%, -50%); */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(181, 181, 181, 0.665);
+    border-radius: 8px;
+    /* border: 2px solid var(--border-color); */
+    /* border: 1px solid var(--border-color); */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    align-items: start;
+    justify-content: center;
+}
+.addRuleModal_open {
+    display: flex;
+}
+.addRuleModal_closed {
+    display: none;
+}
 .addRuleModal_wrapper {
-    width: max-content;
-    height: max-content;
+    width: 80%;
+    height: 80%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 40px;
+}
+
+
+/* Available QuestionList Display Component */
+.availableQuestionListDisplay {
+      position: relative;
+  width: 200px;
+}
+.availableQuestionListDisplay_btn {
+      width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 6px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.availableQuestionListDisplay_wrapper {
+      position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  list-style: none;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* gap: 10px; */
+  /* margin-top: 5px; */
+  top: 0px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+.availableQuestionListDisplay_wrapper li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* width: 100%; */
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.dropdown_chosen {
+  background-color: #e5e2e2;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.availableQuestionListDisplay_wrapper li:hover {
+  background: #e5e2e2;
+  cursor: pointer;
+  border-radius: 6px;
 }
