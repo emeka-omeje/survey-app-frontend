@@ -13,6 +13,7 @@
   --color-background: #f9fafb; /* Light Gray */
   --color-surface: #ffffff; /* White */
   --color-border: #e5e7eb; /* Gray 300 */
+  --faded-color-border: #ccc;
 
   /* Linear Gradients */
   --gradient-primary: linear-gradient(90deg, #1e90ff 0%, #3b82f6 100%);

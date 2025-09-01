@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./skip_branch.module.css"; // Assuming you have a CSS module for styles
 import AddRuleModal from "./AddRuleModal";
-import { useAppStateMgtContext } from "../../../../../Utils/AppContext";
+// import { useAppStateMgtContext } from "../../../../../Utils/AppContext";
 
 const SkipBranchLogic: React.FC = () => {
-  const { isDropDownCardOpen } = useAppStateMgtContext();
+  // const { isDropDownCardOpen } = useAppStateMgtContext();
   return (
     <div className={styles.skipBranchLogic_wrapper}>
-      {isDropDownCardOpen && <AddRuleModal />}
+      <AddRuleModal />
+      {/* {isDropDownCardOpen && <AddRuleModal />} */}
     </div>
   );
 };

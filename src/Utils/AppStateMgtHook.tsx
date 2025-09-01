@@ -1,5 +1,7 @@
 import React from "react";
 import {
+  AvailableQuestionListFlatArrayProps,
+  conditionStatementObjectArrayProps,
   QuestionFrameProps,
   QuestionTypeSelectList,
   sectionTypeProps,
@@ -35,6 +37,7 @@ export const useAppStateMgtHook = () => {
     questionTypeLabel: props[0].label,
     questionTypeIcon: props[0].icon,
     required: false,
+    logic: null,
   });
 
   // This sets up the section state to hold the sections and their questions
@@ -61,16 +64,24 @@ export const useAppStateMgtHook = () => {
     sections: sections,
     modifiedAt: new Date().toISOString(),
     isDirty: true,
+    surveyTags: [],
     status: "idle",
     accountUser: accountUser || "Anonymous",
     surveyCreator: surveyCreator || "Anonymous",
   });
 
-      const [logicIfQuestion, setLogicIfQuestion] = React.useState<string | null>(null);
-      const [logicConditionStatement, setLogicConditionStatement] = React.useState<string | null>(null);
-      const [logicConditionValue, setLogicConditionValue] = React.useState<string | number | boolean | null>(null);
-  
-
+  // The state for Skip/Branch logic
+  const [logicIfQuestion, setLogicIfQuestion] =
+    React.useState<AvailableQuestionListFlatArrayProps | null>(null);
+  const [logicConditionStatement, setLogicConditionStatement] =
+    React.useState<conditionStatementObjectArrayProps | null>(null);
+  const [logicConditionValue, setLogicConditionValue] = React.useState<
+    conditionStatementObjectArrayProps |string | number | null
+  >(null);
+  const [logicActionStatement, setLogicActionStatement] =
+    React.useState<conditionStatementObjectArrayProps | null>(null);
+  const [logicThenQuestion, setLogicThenQuestion] =
+    React.useState<AvailableQuestionListFlatArrayProps | null>(null);
   // Network connection hook parsed here
   const { isNetworkConnected } = useNetworkConnectivityHook();
 
@@ -106,5 +117,9 @@ export const useAppStateMgtHook = () => {
     setLogicConditionStatement,
     logicConditionValue,
     setLogicConditionValue,
+    logicActionStatement,
+    setLogicActionStatement,
+    logicThenQuestion,
+    setLogicThenQuestion,
   };
 };

@@ -23,8 +23,7 @@ const CreateSurvey = () => {
         <PermissionPage />
       ) : createNavBTNLabel === "Preview" ? (
         <PreviewPage />
-      )
-        : null}
+      ) : null}
     </main>
   );
 };

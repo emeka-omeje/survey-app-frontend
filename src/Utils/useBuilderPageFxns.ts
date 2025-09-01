@@ -1,7 +1,10 @@
 // import React from "react";
 import { questionTypeSelectListArray } from "../Components/SurveysComponents/builderPageComponents/QuestionComponents/questionTypeSelectListArray";
 import { useAppStateMgtContext } from "./AppContext";
-import { LogicCondition, QuestionTypeSelectList, sectionTypeProps } from "./dataTypes";
+import {
+  QuestionTypeSelectList,
+  sectionTypeProps,
+} from "./dataTypes";
 
 export const useBuilderPageFxns = () => {
   const { sections, setSections, createEmptyQuestion } =
@@ -175,39 +178,16 @@ export const useBuilderPageFxns = () => {
 
   // This returns the question number based on the section and question index.
   // Used: QuestionFooter.tsx
-  const getQuestionNumber = (sectionIndex: number,
-  itemIndex: number,
-  totalSections: number): string => {
+  const getQuestionNumber = (
+    sectionIndex: number,
+    itemIndex: number,
+    totalSections: number
+  ): string => {
     return totalSections === 1
       ? `Q${itemIndex + 1}`
       : `Q${sectionIndex + 1}.${itemIndex + 1}`;
   };
 
-
-  // Function to set the logic for a specific question frame
-  const setQuestionLogic = (
-    sectionId: string,
-    questionId: string,
-    logicConditions: LogicCondition[]
-  ) => {
-    setSections((prev) =>
-      prev.map((section) =>
-        section.id === sectionId
-          ? {
-              ...section,
-              questionFrames: section.questionFrames.map((questionFrame) =>
-                questionFrame.id === questionId
-                  ? {
-                      ...questionFrame,
-                      logic: logicConditions,
-                    }
-                  : questionFrame
-              ),
-            }
-          : section
-      )
-    );
-  };
 
   return {
     addSection,
@@ -218,6 +198,8 @@ export const useBuilderPageFxns = () => {
     onRemoveQuestionFrame,
     handleQuestionRequiredChange,
     getQuestionNumber,
-    setQuestionLogic
   };
 };
+
+
+// export default useBuilderPageFxns

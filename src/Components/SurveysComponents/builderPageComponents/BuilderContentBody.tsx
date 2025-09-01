@@ -11,40 +11,17 @@ import { IoMdAddCircleOutline } from "react-icons/io"; //for add question
 import { QuestionTypeSelectList } from "../../../Utils/dataTypes";
 import { SortableListAbstractComponent } from "../../../Utils/SortableAbstractComponent/SortableListAbstractComponent";
 
-// type sectionTypeProps = {
-//   id: `${string}-${string}-${string}-${string}-${string}`;
-//   title: string;
-//   questionFrames: {
-//     id: `${string}-${string}-${string}-${string}-${string}`;
-//     text: string;
-//     questionTypeValue: string;
-//     questionTypeLabel: string;
-//     questionTypeIcon: IconType | null
-//   }[];
-// }[];
 type BuilderContentBodyProps = {
-  // totalNumOfQuestionArray: number;
   addSection: (prop: QuestionTypeSelectList[]) => void;
   addQuestionFrameToSection: (sectionId: string) => void;
-  // chooseDiffQuestionType: (
-  //   sectionId: string,
-  //   questionId: string,
-  //   selectedType: QuestionTypeSelectList
-  // ) => void;
   onRemoveQuestionFrame: (sectionId: string, questionId: string) => void;
   deleteSection: (sectionId: string) => void;
-  // addQuestionFrameToLastSection: () => void;
 };
 
 const BuilderContentBody: React.FC<BuilderContentBodyProps> = ({
-  // totalNumOfQuestionArray,
-  // onRemoveQuestion,
   addQuestionFrameToSection,
-  // sections,
-  // chooseDiffQuestionType,
   onRemoveQuestionFrame,
   deleteSection,
-  // addQuestionFrameToLastSection,
 }) => {
   const { frameCall, sections, setSections, setSurveyTitle } =
     useAppStateMgtContext();

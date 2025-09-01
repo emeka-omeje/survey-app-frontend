@@ -1,4 +1,4 @@
-// import { IconType } from "react-icons";
+import React from "react";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { IconName } from "../Components/SurveysComponents/builderPageComponents/QuestionComponents/questionTypeSelectListArray";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
@@ -34,12 +34,26 @@ export interface AppContextProps {
   setHydrated: React.Dispatch<React.SetStateAction<boolean>>;
   logicNavBTNLabel: string;
   setLogicNavBTNLabel: React.Dispatch<React.SetStateAction<string>>;
-  logicIfQuestion: string | null;
-  setLogicIfQuestion: React.Dispatch<React.SetStateAction<string | null>>;
-  logicConditionStatement: string | null;
-  setLogicConditionStatement: React.Dispatch<React.SetStateAction<string | null>>;
-  logicConditionValue: string | number | boolean | null;
-  setLogicConditionValue: React.Dispatch<React.SetStateAction<string | number | boolean | null>>;
+  logicIfQuestion: AvailableQuestionListFlatArrayProps | null;
+  setLogicIfQuestion: React.Dispatch<
+    React.SetStateAction<AvailableQuestionListFlatArrayProps | null>
+  >;
+  logicConditionStatement: conditionStatementObjectArrayProps | null;
+  setLogicConditionStatement: React.Dispatch<
+    React.SetStateAction<conditionStatementObjectArrayProps | null>
+  >;
+  logicConditionValue: conditionStatementObjectArrayProps | string | number | null;
+  setLogicConditionValue: React.Dispatch<
+    React.SetStateAction<conditionStatementObjectArrayProps | string | number | null>
+  >;
+  logicActionStatement: conditionStatementObjectArrayProps | null;
+  setLogicActionStatement: React.Dispatch<
+    React.SetStateAction<conditionStatementObjectArrayProps | null>
+  >;
+    logicThenQuestion: AvailableQuestionListFlatArrayProps | null;
+  setLogicThenQuestion: React.Dispatch<
+    React.SetStateAction<AvailableQuestionListFlatArrayProps | null>
+  >;
 }
 
 // export type QuestionTypeSelectList = {
@@ -62,7 +76,7 @@ export type QuestionFrameProps = {
   questionTypeLabel: string;
   questionTypeIcon: IconName | null;
   required: boolean;
-  logic?: LogicCondition[];
+  logic: LogicCondition[] | null;
 };
 
 export type sectionTypeProps = {
@@ -99,12 +113,13 @@ export type QuestionFooterPropsType = {
 export type LogicCondition = {
   id: string; // unique id for this condition
   questionId: QuestionFrameProps["id"]; // which question it targets
-  operator: "equals" | "not_equals" | "greater_than" | "less_than" | "includes";
-  value: string | number | boolean;
-  logicAction: LogicAction[]
+  operator: string;
+  value: string | number | conditionStatementObjectArrayProps;
+  logicAction: LogicAction[];
 };
 export type LogicAction = {
-  type: "show" | "hide" | "skip_to" | "end_survey";
+  logicActionId: string;
+  actionType: string;
   targetSectionId?: string;
   targetQuestionId?: string;
 };
@@ -120,7 +135,9 @@ export type surveyTypeProps = {
   sections: sectionTypeProps;
   modifiedAt: string;
   isDirty: boolean;
-  status: "idle"
+  surveyTags: string[];
+  status:
+    | "idle"
     | "draft"
     | "in-progress"
     | "enqueue"
@@ -158,21 +175,20 @@ export type SortableListProps<T> = {
 };
 
 // Interface for Drag Handle Props for Sortable List
-export type DragHandleProps =  {
+export type DragHandleProps = {
   attributes: DraggableAttributes;
   listeners?: SyntheticListenerMap;
-}
+};
 
 export type LogicTypeSelectProps = {
   logicTypeSelectArray: string[];
-}
+};
 
 // export type getQuestionNumberProps = {
 //   sectionIndex: number;
 //   itemIndex: number;
 //   totalSections: number;
 // }
-
 
 // Interface for AvailableQuestionListFlatArray
 // This is used in AvailableQuestionListFlatArray.tsx
@@ -183,9 +199,36 @@ export type AvailableQuestionListFlatArrayProps = {
     sectionTitle: string;
   };
   questionSectionIndexNumber: number;
-  // questionSectionID: string;
-  // questionID: string;
   questionItemIndexNumber: number;
   questionNumber: string;
-}
+  availableQuestionArrayIndex: number
+};
 
+// ConditionStatementObjectArray
+// Used: ConditionSelector.tsx
+export type conditionStatementObjectArrayProps = {
+  label: string;
+  value: string;
+};
+
+// Used: RuleSetter.tsx, AvailableQuestionListDisplay.tsx, ConditionStatementSelector.tsx
+export type AnotherDropDownProps = {
+  isAnotherDropDown: boolean;
+  setIsAnotherDropDown: (value: React.SetStateAction<boolean>) => void;
+};
+
+export type SelectorDropDownProps = {
+  tag: string;
+  isAnotherDropDown: boolean;
+  // setIsAnotherDropDown: (value: React.SetStateAction<boolean>) => void;
+  handleOnclick: () => void;
+  handleAvailableQuestionUpdate: (
+    optionProps:
+      | conditionStatementObjectArrayProps
+      | AvailableQuestionListFlatArrayProps
+  ) => void;
+  isAvailableQuestionListOpen: boolean;
+  RenderObjectArray:
+    | conditionStatementObjectArrayProps[]
+    | AvailableQuestionListFlatArrayProps[];
+};

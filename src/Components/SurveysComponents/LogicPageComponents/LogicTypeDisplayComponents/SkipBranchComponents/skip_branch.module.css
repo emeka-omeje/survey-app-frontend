@@ -36,19 +36,81 @@
 }
 .addRuleModal_wrapper {
     width: 80%;
-    height: 80%;
+    height: max-content;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    position: relative;
+}
+
+.addRuleModal_wrapper hr {
+  width: 100%;
+  border-color: var(--light-grey);
+  height: 0.01rem;
+}
+
+.addRuleModal_btnContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-bottom: -6px;
+}
+.addRuleModal_btn {
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--faded-black);
+    transition: color 0.2s ease-in-out, outline 0.2s ease-in-out;
+    padding: 8px 14px;
+    border-radius: 5px;
+    border: none;
+    outline: 1px solid var(--color-border);
+
+    &:hover {
+        color: var(--primary-black);
+        outline: 1px solid var(--primary-black);
+        background-color: var(--alt-opacity);
+    }
+}
+
+
+
+/* RuleSetter Component */
+.ruleSetter_wrapper {
+    width: 100%;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px 0px;
+    /* border: 1px solid var(--border-color); */
+}
+.ruleSetter_item {
+      width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 
 /* Available QuestionList Display Component */
 .availableQuestionListDisplay {
       position: relative;
-  width: 200px;
+  width: 100%;
 }
 .availableQuestionListDisplay_btn {
       width: 100%;
@@ -56,11 +118,11 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 6px;
+  padding: 8px;
   font-size: 14px;
   font-weight: 500;
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   border-radius: 5px;
   cursor: pointer;
     transition: background-color 0.3s ease;
@@ -69,10 +131,10 @@
       position: absolute;
   width: 100%;
   background: white;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   border-radius: 5px;
   list-style: none;
-  padding: 10px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -82,12 +144,13 @@
   top: 0px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1;
+  transition: all 0.2s ease-in-out;
 }
 .availableQuestionListDisplay_wrapper li {
   display: flex;
   align-items: center;
-  justify-content: center;
-  /* width: 100%; */
+  justify-content: flex-start;
+  width: 100%;
   gap: 10px;
   padding: 10px;
   cursor: pointer;
@@ -102,4 +165,27 @@
   background: #e5e2e2;
   cursor: pointer;
   border-radius: 6px;
+}
+
+
+/* ValueConditionInput Component */
+.valueCondition_input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  outline: 1px solid var(--color-border);
+  transition: outline 0.1s ease-in-out ;
+  font-size: 14px;
+  font-weight: 500;
+
+  &::placeholder {
+      font-size: 14px;
+  font-weight: 500;
+  color: var(--default-grey-color);
+  }
+
+  &:focus {
+  outline: 2px solid var(--light-navy-blue);
+  }
 }

@@ -1,23 +1,30 @@
 import React from "react";
 import styles from "./skip_branch.module.css";
-import AvailableQuestionListFlatArray from "./AvailableQuestionListFlatArray";
+// import AvailableQuestionListFlatArray from "./AvailableQuestionListFlatArray";
+// import { AvailableQuestionListFlatArrayProps } from "../../../../../Utils/dataTypes";
+// // import { useBuilderPageFxns } from "../../../../../Utils/useBuilderPageFxns";
+import { useAppStateMgtContext } from "../../../../../Utils/AppContext";
 import {
   AnotherDropDownProps,
   AvailableQuestionListFlatArrayProps,
   conditionStatementObjectArrayProps,
 } from "../../../../../Utils/dataTypes";
-// import { useBuilderPageFxns } from "../../../../../Utils/useBuilderPageFxns";
-import { useAppStateMgtContext } from "../../../../../Utils/AppContext";
 import SelectorComponent from "./SelectorComponent";
 
-const AvailableQuestionListDisplay: React.FC<AnotherDropDownProps> = ({
+const conditionStatementObjectArray: conditionStatementObjectArrayProps[] = [
+  { label: "True/False", value: "true_false" },
+  { label: "Equal", value: "equal" },
+  { label: "Not Equal", value: "not_equal" },
+  { label: "Greater Than", value: "greater_than" },
+  { label: "Less Than", value: "less_than" },
+  { label: "Includes", value: "includes" },
+];
+
+const ConditionStatementSelector: React.FC<AnotherDropDownProps> = ({
   isAnotherDropDown,
   setIsAnotherDropDown,
 }) => {
-  const { logicIfQuestion, setLogicIfQuestion, setLogicThenQuestion } =
-    useAppStateMgtContext();
-  // const { setQuestionLogic } = useBuilderPageFxns();
-  const AvailableQuestionListArray = AvailableQuestionListFlatArray();
+  const { setLogicConditionStatement } = useAppStateMgtContext();
   const [isAvailableQuestionListOpen, setIsAvailableQuestionListOpen] =
     React.useState<boolean>(false);
 
@@ -31,13 +38,21 @@ const AvailableQuestionListDisplay: React.FC<AnotherDropDownProps> = ({
       | conditionStatementObjectArrayProps
       | AvailableQuestionListFlatArrayProps
   ) => {
-    if ("questionFrame" in optionProps) {
-      setLogicIfQuestion(optionProps);
-      setLogicThenQuestion(null);
+    if ("label" in optionProps) {
+      setLogicConditionStatement(optionProps);
       setIsAvailableQuestionListOpen(false);
       setIsAnotherDropDown(false);
     }
   };
+
+  React.useEffect(() => {
+    if (
+      conditionStatementObjectArray &&
+      conditionStatementObjectArray.length > 0
+    ) {
+      setLogicConditionStatement(conditionStatementObjectArray[0]);
+    }
+  }, []);
 
   // React.useEffect(() => {
   //   if (!isAnotherDropDown) {
@@ -45,22 +60,18 @@ const AvailableQuestionListDisplay: React.FC<AnotherDropDownProps> = ({
   //   }
   // }, [isAnotherDropDown]);
 
-  if (logicIfQuestion === null) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <span className={styles.availableQuestionListDisplay}>
       <SelectorComponent
-        tag="If"
+        tag="Condition"
         isAnotherDropDown={isAnotherDropDown}
         handleOnclick={handleOnclick}
         handleAvailableQuestionUpdate={handleAvailableQuestionUpdate}
         isAvailableQuestionListOpen={isAvailableQuestionListOpen}
-        RenderObjectArray={AvailableQuestionListArray}
+        RenderObjectArray={conditionStatementObjectArray}
       />
     </span>
   );
 };
 
-export default AvailableQuestionListDisplay;
+export default ConditionStatementSelector;
