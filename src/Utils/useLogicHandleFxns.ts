@@ -10,6 +10,12 @@ const useLogicHandleFxns = () => {
     logicActionStatement,
     logicThenQuestion,
     setSections,
+    setLogicIfQuestion,
+    setLogicConditionStatement,
+    setLogicConditionValue,
+    setLogicActionStatement,
+    setLogicThenQuestion,
+    setIsDropDownCardOpen,
   } = useAppStateMgtContext();
 
   // Function to set the logic for a specific question frame
@@ -39,6 +45,7 @@ const useLogicHandleFxns = () => {
             : section
         )
       );
+            console.log("setQuestionLogic", logicConditions);
     },
     []
   );
@@ -83,15 +90,52 @@ const useLogicHandleFxns = () => {
         logicIfQuestion!.questionFrame.id,
         compiledLogic
       );
+      console.log("handleLogicCompilation", compiledLogic);
     } catch (error) {
         console.error("Error setting question logic:", error);
         throw error;
     }
   };
 
+    const handleSetQuestionLogic = () => {
+    try {
+      if (
+        !logicIfQuestion ||
+        !logicConditionStatement ||
+        logicConditionValue === null ||
+        !logicActionStatement ||
+        !logicThenQuestion
+      ) {
+        alert("Please complete all logic fields before saving.");
+        console.log("Incomplete logic fields:", {
+          logicIfQuestion,
+          logicConditionStatement,
+          logicConditionValue,
+          logicActionStatement,
+          logicThenQuestion
+        });
+        return;
+      }
+      handleLogicCompilation();
+      setLogicIfQuestion(null);
+      setLogicConditionStatement(null);
+      setLogicConditionValue(null);
+      setLogicActionStatement(null);
+      setLogicThenQuestion(null);
+      // setHydrated(true);
+      console.log("handleSetQuestionLogic: Logic compiled and set successfully");
+    } catch (error) {
+      console.error("Error compiling logic:", error);
+      throw error;
+    }
+    setIsDropDownCardOpen(false);
+  };
+
+
   return {
     handleLogicCompilation,
     setQuestionLogic,
+    handleSetQuestionLogic
   };
 };
 

@@ -10,21 +10,22 @@ import {
   conditionStatementObjectArrayProps,
 } from "../../../../../Utils/dataTypes";
 import SelectorComponent from "./SelectorComponent";
+import { conditionStatementObjectArray } from "./Object_ArrayStatments";
 
-const conditionStatementObjectArray: conditionStatementObjectArrayProps[] = [
-  { label: "True/False", value: "true_false" },
-  { label: "Equal", value: "equal" },
-  { label: "Not Equal", value: "not_equal" },
-  { label: "Greater Than", value: "greater_than" },
-  { label: "Less Than", value: "less_than" },
-  { label: "Includes", value: "includes" },
-];
+// const conditionStatementObjectArray: conditionStatementObjectArrayProps[] = [
+//   { label: "True/False", value: "true_false" },
+//   { label: "Equal", value: "equal" },
+//   { label: "Not Equal", value: "not_equal" },
+//   { label: "Greater Than", value: "greater_than" },
+//   { label: "Less Than", value: "less_than" },
+//   { label: "Includes", value: "includes" },
+// ];
 
 const ConditionStatementSelector: React.FC<AnotherDropDownProps> = ({
   isAnotherDropDown,
   setIsAnotherDropDown,
 }) => {
-  const { setLogicConditionStatement } = useAppStateMgtContext();
+  const { logicConditionStatement, setLogicConditionStatement } = useAppStateMgtContext();
   const [isAvailableQuestionListOpen, setIsAvailableQuestionListOpen] =
     React.useState<boolean>(false);
 
@@ -48,11 +49,13 @@ const ConditionStatementSelector: React.FC<AnotherDropDownProps> = ({
   React.useEffect(() => {
     if (
       conditionStatementObjectArray &&
-      conditionStatementObjectArray.length > 0
+      conditionStatementObjectArray.length > 0 &&
+      logicConditionStatement === null
     ) {
       setLogicConditionStatement(conditionStatementObjectArray[0]);
     }
-  }, []);
+  }, [logicConditionStatement, conditionStatementObjectArray]);
+
 
   // React.useEffect(() => {
   //   if (!isAnotherDropDown) {

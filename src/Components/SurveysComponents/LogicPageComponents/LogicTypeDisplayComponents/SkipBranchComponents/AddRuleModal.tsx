@@ -4,6 +4,12 @@ import { useAppStateMgtContext } from "../../../../../Utils/AppContext";
 import RuleSetter from "./RuleSetter";
 import AvailableQuestionListFlatArray from "./AvailableQuestionListFlatArray";
 import useLogicHandleFxns from "../../../../../Utils/useLogicHandleFxns";
+// import {
+//   actionStatementObjectArray,
+//   booleanObjectArray,
+//   conditionStatementObjectArray,
+// } from "./Object_ArrayStatments";
+// import useAvailableQuestionsAfterSelected from "./AvailableQuestionAfterSelectHook";
 // import { LogicCondition } from "../../../../../Utils/dataTypes";
 
 const AddRuleModal = () => {
@@ -12,58 +18,36 @@ const AddRuleModal = () => {
     setIsDropDownCardOpen,
     setLogicIfQuestion,
     logicIfQuestion,
-    logicConditionStatement,
-    setLogicConditionStatement,
-    logicConditionValue,
-    setLogicConditionValue,
-    logicActionStatement,
-    setLogicActionStatement,
-    logicThenQuestion,
-    setLogicThenQuestion
+    // logicConditionStatement,
+    // setLogicConditionStatement,
+    // // logicConditionValue,
+    // setLogicConditionValue,
+    // logicActionStatement,
+    // setLogicActionStatement,
+    // logicThenQuestion,
+    // setLogicThenQuestion,
   } = useAppStateMgtContext();
-  const { handleLogicCompilation } = useLogicHandleFxns();
+  const { handleSetQuestionLogic } = useLogicHandleFxns();
   const [isAnotherDropDown, setIsAnotherDropDown] =
     React.useState<boolean>(false);
   const AvailableQuestionListArray = AvailableQuestionListFlatArray();
 
+
+  // Ensures default selections are made when the modal opens
   React.useEffect(() => {
-    if (AvailableQuestionListArray && AvailableQuestionListArray.length > 0 && logicIfQuestion === null) {
+    if (
+      AvailableQuestionListArray &&
+      AvailableQuestionListArray.length > 0 &&
+      logicIfQuestion === null
+    ) {
       setLogicIfQuestion(AvailableQuestionListArray[0]);
     }
   }, [logicIfQuestion, AvailableQuestionListArray]);
 
-  const handleSetQuestionLogic = () => {
-    try {
-      if (
-        !logicIfQuestion ||
-        !logicConditionStatement ||
-        logicConditionValue === null ||
-        !logicActionStatement ||
-        !logicThenQuestion
-      ) {
-        alert("Please complete all logic fields before saving.");
-        console.log("Incomplete logic fields:", {
-          logicIfQuestion,
-          logicConditionStatement,
-          logicConditionValue,
-          logicActionStatement,
-          logicThenQuestion
-        });
-        return;
-      }
-      handleLogicCompilation();
-      setLogicIfQuestion(null);
-      setLogicConditionStatement(null);
-      setLogicConditionValue(null);
-      setLogicActionStatement(null);
-      setLogicThenQuestion(null);
-      // setIsDropDownCardOpen(false);
-    } catch (error) {
-      console.error("Error compiling logic:", error);
-      throw error;
-    }
-    setIsDropDownCardOpen(false);
-  };
+
+
+
+
 
   return (
     <aside
@@ -91,7 +75,7 @@ const AddRuleModal = () => {
           </button>
           <button
             className={styles.addRuleModal_btn}
-            onClick={() => 
+            onClick={() =>
               // Logic to save the rule can be added here
               handleSetQuestionLogic()
             }

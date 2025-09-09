@@ -23,7 +23,14 @@ const SelectorComponent: React.FC<SelectorDropDownProps> = ({
     logicThenQuestion,
   } = useAppStateMgtContext();
 
-  if(typeof logicConditionValue === "string" || typeof logicConditionValue === "number") return <div>Loading...</div>
+  // Safely derive a display label for logicConditionValue which may be
+  // a string | number | conditionStatementObjectArrayProps | null
+  const logicConditionValueLabel = (() => {
+    const v = logicConditionValue;
+    if (v == null) return undefined;
+    if (typeof v === "object" && "label" in v) return v.label;
+    return String(v);
+  })();
 
   return (
     <>
@@ -36,7 +43,7 @@ const SelectorComponent: React.FC<SelectorDropDownProps> = ({
           : tag === "Action"
           ? logicActionStatement?.label
           : tag === "Boolean"
-          ? logicConditionValue?.label
+          ? logicConditionValueLabel
           : tag === "Then"
           ? `${logicThenQuestion?.questionNumber}: ${
               logicThenQuestion?.questionFrame.questionText ||

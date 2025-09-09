@@ -7,11 +7,12 @@ import {
   conditionStatementObjectArrayProps,
 } from "../../../../../Utils/dataTypes";
 import SelectorComponent from "./SelectorComponent";
+import { booleanObjectArray } from "./Object_ArrayStatments";
 
-const booleanObjectArray: conditionStatementObjectArrayProps[] = [
-  { label: "True", value: "true" },
-  { label: "False", value: "false" },
-];
+// const booleanObjectArray: conditionStatementObjectArrayProps[] = [
+//   { label: "True", value: "true" },
+//   { label: "False", value: "false" },
+// ];
 
 const ValueConditionInput: React.FC<AnotherDropDownProps> = ({
   isAnotherDropDown,
@@ -50,15 +51,16 @@ const ValueConditionInput: React.FC<AnotherDropDownProps> = ({
     setLogicConditionValue(value);
   };
 
-  React.useEffect(() => {
-    if (
-      booleanObjectArray &&
-      booleanObjectArray.length > 0 &&
-      logicConditionStatement?.value === "true_false"
-    ) {
-      setLogicConditionValue(booleanObjectArray[0]);
-    }
-  }, [logicConditionStatement, booleanObjectArray]);
+    React.useEffect(() => {
+      if (
+        booleanObjectArray &&
+        booleanObjectArray.length > 0 &&
+        logicConditionStatement?.value === "true_false"
+      ) {
+        setLogicConditionValue(booleanObjectArray[0]);
+      }
+    }, [logicConditionStatement, booleanObjectArray]);
+
 
   return (
     <>
@@ -86,7 +88,8 @@ const ValueConditionInput: React.FC<AnotherDropDownProps> = ({
       ) : (
         <input
           className={styles.valueCondition_input}
-          type="number"
+              type="number"
+              id="numberValue_condition"
           placeholder={"Enter a number"}
           onChange={(e) => handleNumberValueConditionChange(+e.target.value)}
           value={

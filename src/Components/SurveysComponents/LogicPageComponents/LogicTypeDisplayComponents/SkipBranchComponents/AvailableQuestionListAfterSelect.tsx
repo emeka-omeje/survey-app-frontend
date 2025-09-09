@@ -52,7 +52,8 @@ const AvailableQuestionListAfterSelect: React.FC<AnotherDropDownProps> = ({
     ) {
       setLogicThenQuestion(questionsAfterSelected[0]);
     }
-  }, [questionsAfterSelected]);
+  }, [logicThenQuestion, questionsAfterSelected]);
+
 
   //   React.useEffect(() => {
   //     if (isAnotherDropDown === false) {

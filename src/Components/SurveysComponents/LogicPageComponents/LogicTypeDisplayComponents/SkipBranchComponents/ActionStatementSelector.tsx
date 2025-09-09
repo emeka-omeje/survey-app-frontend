@@ -10,19 +10,20 @@ import {
   conditionStatementObjectArrayProps,
 } from "../../../../../Utils/dataTypes";
 import SelectorComponent from "./SelectorComponent";
+import { actionStatementObjectArray } from "./Object_ArrayStatments";
 
-const actionStatementObjectArray: conditionStatementObjectArrayProps[] = [
-  { label: "Show", value: "show" },
-  { label: "Hide", value: "hide" },
-  { label: "Skip To", value: "skip_to" },
-  { label: "End Survey", value: "end_survey" },
-];
+// export const actionStatementObjectArray: conditionStatementObjectArrayProps[] = [
+//   { label: "Show", value: "show" },
+//   { label: "Hide", value: "hide" },
+//   { label: "Skip To", value: "skip_to" },
+//   { label: "End Survey", value: "end_survey" },
+// ];
 
 const ActionStatementSelector: React.FC<AnotherDropDownProps> = ({
   isAnotherDropDown,
   setIsAnotherDropDown,
 }) => {
-  const { setLogicActionStatement } = useAppStateMgtContext();
+  const { logicActionStatement, setLogicActionStatement } = useAppStateMgtContext();
   const [isAvailableQuestionListOpen, setIsAvailableQuestionListOpen] =
     React.useState<boolean>(false);
 
@@ -44,10 +45,15 @@ const ActionStatementSelector: React.FC<AnotherDropDownProps> = ({
   };
 
   React.useEffect(() => {
-    if (actionStatementObjectArray && actionStatementObjectArray.length > 0) {
+    if (
+      actionStatementObjectArray &&
+      actionStatementObjectArray.length > 0 &&
+      logicActionStatement === null
+    ) {
       setLogicActionStatement(actionStatementObjectArray[0]);
     }
-  }, []);
+  }, [logicActionStatement, actionStatementObjectArray]);
+
 
   // React.useEffect(() => {
   //   if (!isAnotherDropDown) {
