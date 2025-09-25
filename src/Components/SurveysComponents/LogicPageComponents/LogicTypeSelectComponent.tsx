@@ -16,6 +16,8 @@ const LogicTypeSelectComponent: React.FC<LogicTypeSelectProps> = ({
               ? styles.logicLink_active
               : styles.logicLink_inactive
           }`}
+          aria-label={type}
+          role="button"
           key={index}
           onClick={() => setLogicNavBTNLabel(type)}
         >

@@ -1,0 +1,188 @@
+/* Scoring module styles */
+.scoring_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg, #ffffff);
+}
+
+.scoring_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--muted, #e6e6e6);
+  padding-bottom: 0.5rem;
+}
+
+.scoring_header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.scoring_headerControls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btnPrimary {
+  background: var(--primary, #1f6feb);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--text, #222);
+  border: 1px solid var(--muted, #e6e6e6);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.scoring_body {
+    width: 100%;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+.scoring_sidebar {
+  border: 1px solid var(--muted, #e6e6e6);
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: var(--sidebar-bg, #fafafa);
+}
+
+.applyRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.pointsInput {
+  width: 84px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--muted, #e6e6e6);
+  border-radius: 6px;
+}
+
+.previewBox h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+.previewList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.previewItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.previewTotal {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--muted, #e6e6e6);
+  margin-top: 0.75rem;
+}
+
+.scoring_main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* overflow-y: auto; */
+}
+
+.sectionCard {
+  border: 1px solid var(--muted, #e6e6e6);
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: white;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.sectionHeader h4 {
+  margin: 0;
+}
+
+.questionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.questionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  background: var(--row-bg, #fbfbfb);
+}
+
+.questionMeta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  min-width: 0;
+}
+.questionNumber {
+  font-weight: 600;
+  color: var(--muted, #666);
+  width: 54px;
+}
+.questionText {
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.questionType {
+  font-size: 0.8rem;
+  color: var(--muted, #888);
+}
+
+.questionControls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.pointsLabel {
+  font-size: 0.85rem;
+  color: var(--muted, #666);
+}
+
+.empty {
+  padding: 1rem;
+  color: var(--muted, #666);
+}
+
+@media (max-width: 900px) {
+  .scoring_body {
+    grid-template-columns: 1fr;
+  }
+  .scoring_sidebar {
+    order: 2;
+  }
+}

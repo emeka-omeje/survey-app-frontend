@@ -3,7 +3,7 @@ import styles from "./skip_branch.module.css"; // Assuming you have a CSS module
 import { useAppStateMgtContext } from "../../../../../Utils/AppContext";
 import RuleSetter from "./RuleSetter";
 import AvailableQuestionListFlatArray from "./AvailableQuestionListFlatArray";
-import useLogicHandleFxns from "../../../../../Utils/useLogicHandleFxns";
+import useLogicHandleFxns from "../../../../../Utils/LogicHandlers/useLogicHandleFxns";
 // import {
 //   actionStatementObjectArray,
 //   booleanObjectArray,
@@ -32,7 +32,6 @@ const AddRuleModal = () => {
     React.useState<boolean>(false);
   const AvailableQuestionListArray = AvailableQuestionListFlatArray();
 
-
   // Ensures default selections are made when the modal opens
   React.useEffect(() => {
     if (
@@ -43,11 +42,6 @@ const AddRuleModal = () => {
       setLogicIfQuestion(AvailableQuestionListArray[0]);
     }
   }, [logicIfQuestion, AvailableQuestionListArray]);
-
-
-
-
-
 
   return (
     <aside

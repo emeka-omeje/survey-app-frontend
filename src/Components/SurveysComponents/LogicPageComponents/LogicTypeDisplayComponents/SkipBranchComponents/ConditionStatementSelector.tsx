@@ -10,7 +10,7 @@ import {
   conditionStatementObjectArrayProps,
 } from "../../../../../Utils/dataTypes";
 import SelectorComponent from "./SelectorComponent";
-import { conditionStatementObjectArray } from "./Object_ArrayStatments";
+import { conditionStatementObjectArray } from "./ConditionalObject_ArrayStatments";
 
 // const conditionStatementObjectArray: conditionStatementObjectArrayProps[] = [
 //   { label: "True/False", value: "true_false" },
@@ -25,7 +25,8 @@ const ConditionStatementSelector: React.FC<AnotherDropDownProps> = ({
   isAnotherDropDown,
   setIsAnotherDropDown,
 }) => {
-  const { logicConditionStatement, setLogicConditionStatement } = useAppStateMgtContext();
+  const { logicConditionStatement, setLogicConditionStatement } =
+    useAppStateMgtContext();
   const [isAvailableQuestionListOpen, setIsAvailableQuestionListOpen] =
     React.useState<boolean>(false);
 
@@ -55,7 +56,6 @@ const ConditionStatementSelector: React.FC<AnotherDropDownProps> = ({
       setLogicConditionStatement(conditionStatementObjectArray[0]);
     }
   }, [logicConditionStatement, conditionStatementObjectArray]);
-
 
   // React.useEffect(() => {
   //   if (!isAnotherDropDown) {

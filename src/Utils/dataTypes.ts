@@ -42,15 +42,21 @@ export interface AppContextProps {
   setLogicConditionStatement: React.Dispatch<
     React.SetStateAction<conditionStatementObjectArrayProps | null>
   >;
-  logicConditionValue: conditionStatementObjectArrayProps | string | number | null;
+  logicConditionValue:
+    | conditionStatementObjectArrayProps
+    | string
+    | number
+    | null;
   setLogicConditionValue: React.Dispatch<
-    React.SetStateAction<conditionStatementObjectArrayProps | string | number | null>
+    React.SetStateAction<
+      conditionStatementObjectArrayProps | string | number | null
+    >
   >;
   logicActionStatement: conditionStatementObjectArrayProps | null;
   setLogicActionStatement: React.Dispatch<
     React.SetStateAction<conditionStatementObjectArrayProps | null>
   >;
-    logicThenQuestion: AvailableQuestionListFlatArrayProps | null;
+  logicThenQuestion: AvailableQuestionListFlatArrayProps | null;
   setLogicThenQuestion: React.Dispatch<
     React.SetStateAction<AvailableQuestionListFlatArrayProps | null>
   >;
@@ -120,8 +126,8 @@ export type LogicCondition = {
 export type LogicAction = {
   logicActionId: string;
   actionType: string;
-  targetSectionId?: string;
-  targetQuestionId?: string;
+  targetSectionId: string;
+  targetQuestionId: string;
 };
 // export type QuestionLogic = {
 //   conditions: LogicCondition[];
@@ -201,7 +207,7 @@ export type AvailableQuestionListFlatArrayProps = {
   questionSectionIndexNumber: number;
   questionItemIndexNumber: number;
   questionNumber: string;
-  availableQuestionArrayIndex: number
+  availableQuestionArrayIndex: number;
 };
 
 // ConditionStatementObjectArray
@@ -231,4 +237,61 @@ export type SelectorDropDownProps = {
   RenderObjectArray:
     | conditionStatementObjectArrayProps[]
     | AvailableQuestionListFlatArrayProps[];
+};
+
+export type questionsWithLogicFxnType = {
+  sectionTitle: string;
+  sectionID: string;
+  question: QuestionFrameProps;
+  questionIndex: number;
+  ifQuestionNumber: string;
+  thenQuestionNumberMap: Record<string, thenQuestionStringProps>;
+};
+
+export type thenQuestionStringProps = {
+  thenQuestionId: string;
+  thenQuestionNumber: string;
+};
+
+export type skipLogicEditDeleteBTNProps = {
+  buttonLabel: string;
+  sectionId: string;
+  questionId: string;
+  conditionId: string;
+};
+
+// -----------------------------------------------------------------------------
+// Scoring types
+// Types used by the Scoring UI components (ScoringSideBar, EachScoringPoint_Control)
+// These centralised types live here so multiple components can import shared
+// type definitions and remain consistent.
+// -----------------------------------------------------------------------------
+
+// Per-section totals used in scoring preview
+export type ScoringPerSectionTotal = {
+  sectionId: string;
+  title: string;
+  total: number;
+};
+
+// Aggregate totals structure (per-section and grand total)
+export type ScoringComputeTotals = {
+  perSection: ScoringPerSectionTotal[];
+  grandTotal: number;
+};
+
+// Props for the Scoring sidebar component
+export type ScoringSideBarProps = {
+  applyAllValue: number;
+  setApplyAllValue: React.Dispatch<React.SetStateAction<number>>;
+  applyPointsToAll: (value: number) => void;
+  computeTotals: ScoringComputeTotals;
+};
+
+// Props for the per-question points control component
+export type EachScoringPointControlProps = {
+  sectionId: string;
+  questionId: string;
+  assignedPoint?: number | null;
+  onPointChange: (sectionId: string, questionId: string, value: number) => void;
 };

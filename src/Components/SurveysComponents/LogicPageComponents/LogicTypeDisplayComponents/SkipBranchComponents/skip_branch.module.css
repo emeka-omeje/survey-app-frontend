@@ -1,53 +1,52 @@
 /* SkipBranch Component */
 .skipBranchLogic_wrapper {
-    /* position: relative; */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  /* position: relative; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 0px;
 }
-
-
 
 /* AddRuleModal Component */
 .addRuleModal {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    /* transform: translate(-50%, -50%); */
-    width: 100%;
-    height: 100%;
-    background-color: rgba(181, 181, 181, 0.665);
-    border-radius: 8px;
-    /* border: 2px solid var(--border-color); */
-    /* border: 1px solid var(--border-color); */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    align-items: start;
-    justify-content: center;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /* transform: translate(-50%, -50%); */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(181, 181, 181, 0.665);
+  border-radius: 8px;
+  /* border: 2px solid var(--border-color); */
+  /* border: 1px solid var(--border-color); */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  align-items: start;
+  justify-content: center;
 }
 .addRuleModal_open {
-    display: flex;
+  display: flex;
 }
 .addRuleModal_closed {
-    display: none;
+  display: none;
 }
 .addRuleModal_wrapper {
-    width: 80%;
-    height: max-content;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 10px;
-    position: relative;
+  width: 80%;
+  height: max-content;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  position: relative;
 }
 
 .addRuleModal_wrapper hr {
@@ -57,63 +56,60 @@
 }
 
 .addRuleModal_btnContainer {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 14px;
-    margin-bottom: -6px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: -6px;
 }
 .addRuleModal_btn {
-    font-size: 14px;
-    cursor: pointer;
-    color: var(--faded-black);
-    transition: color 0.2s ease-in-out, outline 0.2s ease-in-out;
-    padding: 8px 14px;
-    border-radius: 5px;
-    border: none;
-    outline: 1px solid var(--color-border);
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--faded-black);
+  transition: color 0.2s ease-in-out, outline 0.2s ease-in-out;
+  padding: 8px 14px;
+  border-radius: 5px;
+  border: none;
+  outline: 1px solid var(--color-border);
 
-    &:hover {
-        color: var(--primary-black);
-        outline: 1px solid var(--primary-black);
-        background-color: var(--alt-opacity);
-    }
+  &:hover {
+    color: var(--primary-black);
+    outline: 1px solid var(--primary-black);
+    background-color: var(--alt-opacity);
+  }
 }
-
-
 
 /* RuleSetter Component */
 .ruleSetter_wrapper {
-    width: 100%;
-    /* height: 100%; */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 20px 0px;
-    /* border: 1px solid var(--border-color); */
+  width: 100%;
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 20px 0px;
+  /* border: 1px solid var(--border-color); */
 }
 .ruleSetter_item {
-      width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
 }
-
 
 /* Available QuestionList Display Component */
 .availableQuestionListDisplay {
-      position: relative;
+  position: relative;
   width: 100%;
 }
 .availableQuestionListDisplay_btn {
-      width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -125,10 +121,10 @@
   border: 1px solid var(--color-border);
   border-radius: 5px;
   cursor: pointer;
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 .availableQuestionListDisplay_wrapper {
-      position: absolute;
+  position: absolute;
   width: 100%;
   background: white;
   border: 1px solid var(--color-border);
@@ -167,7 +163,6 @@
   border-radius: 6px;
 }
 
-
 /* ValueConditionInput Component */
 .valueCondition_input {
   width: 100%;
@@ -175,17 +170,205 @@
   border-radius: 5px;
   border: none;
   outline: 1px solid var(--color-border);
-  transition: outline 0.1s ease-in-out ;
+  transition: outline 0.1s ease-in-out;
   font-size: 14px;
   font-weight: 500;
 
   &::placeholder {
-      font-size: 14px;
-  font-weight: 500;
-  color: var(--default-grey-color);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--default-grey-color);
   }
 
   &:focus {
-  outline: 2px solid var(--light-navy-blue);
+    outline: 2px solid var(--light-navy-blue);
+  }
+}
+
+/* Layout to host modal and rules list side-by-side */
+.skipBranchLogic_main {
+  width: 100%;
+  display: flex;
+  /* grid-template-columns: 420px 1fr; */
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Logic list wrapper */
+.logicList_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  min-height: 160px;
+}
+
+.logicList_empty {
+  width: 100%;
+  padding: 28px;
+  color: var(--default-grey-color, #6b6b6b);
+  font-weight: 500;
+  text-align: center;
+}
+
+.logicList_item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fbfbfb;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.logicList_itemHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logicList_titleWrap {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+.logicList_questionTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-black, #111);
+}
+
+.logicList_sectionTag {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  background: var(--alt-opacity, #eef2ff);
+  color: var(--faded-black);
+  align-self: flex-end;
+  /* color: var(--default-grey-color, #6b6b6b); */
+}
+
+.logicList_body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--light-grey);
+  font-size: 14px;
+}
+
+.logicList_conditionRow {
+  width: 100%;
+  display: flex;
+  /* grid-template-columns: 44px 1fr 160px; */
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* On hover, show a subtle bottom border and reveal row actions */
+/* .logicList_conditionRow:hover {
+  border-bottom: 1px solid var(--light-grey);
+} */
+
+.logicList_rowActions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(0);
+  transition: visibility 0.12s linear, opacity 0.12s linear;
+}
+
+.logicList_conditionRow:hover .logicList_rowActions {
+  visibility: visible;
+  opacity: 1;
+}
+
+.logicList_btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.logicList_btn_edit {
+  color: var(--light-navy-blue);
+  border-color: rgba(34, 112, 255, 0.12);
+}
+
+.logicList_btn_delete {
+  color: #e03e3e;
+  border-color: rgba(224, 62, 62, 0.12);
+}
+
+.logicList_conditionLabel {
+  /* font-weight: 400; */
+  color: var(--faded-black, #333);
+}
+
+.logicList_conditionDetail {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  color: var(--primary-black, #111);
+}
+
+.logicList_conditionValue {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.04);
+  font-weight: 600;
+}
+
+.logicList_actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.logicList_actionItem {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.logicList_actionType {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.logicList_actionTarget {
+  font-size: 14px;
+  color: var(--faded-black);
+}
+
+.logicList_actionPlaceholder {
+  color: var(--default-grey-color, #8b8b8b);
+  font-size: 14px;
+}
+
+/* make modal responsive */
+@media (max-width: 980px) {
+  .skipBranchLogic_main {
+    grid-template-columns: 1fr;
   }
 }

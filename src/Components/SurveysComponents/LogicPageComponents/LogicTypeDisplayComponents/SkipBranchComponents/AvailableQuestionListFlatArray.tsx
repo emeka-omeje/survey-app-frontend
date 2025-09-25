@@ -24,7 +24,7 @@ const AvailableQuestionListFlatArray =
             questionIndex,
             surveyData.sections.length
           ),
-          availableQuestionArrayIndex: flatSortedQuestions.length
+          availableQuestionArrayIndex: flatSortedQuestions.length,
         });
       });
     });
@@ -32,4 +32,4 @@ const AvailableQuestionListFlatArray =
     return flatSortedQuestions;
   };
 
-  export default AvailableQuestionListFlatArray;
+export default AvailableQuestionListFlatArray;
