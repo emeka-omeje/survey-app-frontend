@@ -103,6 +103,13 @@ export type QuestionFrameComponentProps = {
   totalSections: number;
 };
 
+// Used: QuestionInputFrame.tsx
+export type QuestionInputFrameComponentProps = {
+  questionFrame: QuestionFrameProps;
+  sectionId: string;
+  questionType?: string;
+};
+
 // QuestionFooterPropsType defines the props for QuestionFooter component
 // Used: QuestionFooter.tsx
 export type QuestionFooterPropsType = {
@@ -294,4 +301,31 @@ export type EachScoringPointControlProps = {
   questionId: string;
   assignedPoint?: number | null;
   onPointChange: (sectionId: string, questionId: string, value: number) => void;
+};
+
+// -----------------------------------------------------------------------------// Piping types
+export type AvailableQuestionForPiping = {
+  id: string;
+  qNumb: string;
+  text: string;
+  label: string;
+};
+
+// -----------------------------------------------------------------------------
+
+// Used: usePipingHandleFxns.ts
+export type UsePipingArgs = {
+  sections: sectionTypeProps;
+  getQuestionNumber: (
+    sectionIndex: number,
+    itemIndex: number,
+    totalSections: number
+  ) => string;
+  receiverText: string;
+  setReceiverText: React.Dispatch<React.SetStateAction<string>>;
+  delimiter: string;
+  fallback: string;
+  // Optional helpers needed for editing & persisting from the piping UI
+  setSections?: React.Dispatch<React.SetStateAction<sectionTypeProps>>;
+  selectedQuestionId?: string;
 };

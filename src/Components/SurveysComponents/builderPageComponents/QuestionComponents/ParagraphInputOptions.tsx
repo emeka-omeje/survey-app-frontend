@@ -11,7 +11,9 @@ const ParagraphInputOptions: React.FC<QuestionInputOptionsProps> = ({
   return (
     <div className={style.questionInputOptions_main}>
       <p className={style.longShortAnswerText}>
-        {questionType === "long-answer" ? "Long answer texts" : "Short answer texts"}
+        {questionType === "long-answer"
+          ? "Long answer texts"
+          : "Short answer texts"}
       </p>
     </div>
   );

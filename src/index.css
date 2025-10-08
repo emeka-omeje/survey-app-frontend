@@ -42,6 +42,14 @@
   --light-grey: #e6e6e6b8;
   --navy-blue: rgb(9, 9, 42);
   --light-navy-blue: rgb(25, 25, 105);
+
+    --bg: #ffffff;
+  --muted: #e6e6e6;
+  --text: #1f2937;
+  --muted-text: #6b7280;
+  --primary: #075985;
+  --accent: #0ea5a4;
+  --card-bg: #fcfcfd;
 }
 
 *,

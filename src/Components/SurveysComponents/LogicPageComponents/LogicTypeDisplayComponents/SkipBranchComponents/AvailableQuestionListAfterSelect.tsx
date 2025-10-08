@@ -16,11 +16,9 @@ const AvailableQuestionListAfterSelect: React.FC<AnotherDropDownProps> = ({
   const { logicIfQuestion, logicThenQuestion, setLogicThenQuestion } =
     useAppStateMgtContext();
 
-  const selectedIndex = logicIfQuestion
-    ? logicIfQuestion.availableQuestionArrayIndex
-    : 0;
+  const selectedQuestionId = logicIfQuestion?.questionFrame.id ?? "";
   const questionsAfterSelected =
-    useAvailableQuestionsAfterSelected(selectedIndex);
+    useAvailableQuestionsAfterSelected(selectedQuestionId);
   //   const questionsAfterSelected = useAvailableQuestionsAfterSelected(
   //     logicIfQuestion!.availableQuestionArrayIndex
   //   );
@@ -52,8 +50,7 @@ const AvailableQuestionListAfterSelect: React.FC<AnotherDropDownProps> = ({
     ) {
       setLogicThenQuestion(questionsAfterSelected[0]);
     }
-  }, [logicThenQuestion, questionsAfterSelected]);
-
+  }, [logicThenQuestion, questionsAfterSelected, setLogicThenQuestion]);
 
   //   React.useEffect(() => {
   //     if (isAnotherDropDown === false) {

@@ -4,7 +4,7 @@ import { useAppStateMgtContext } from "../../../../../Utils/AppContext";
 import { useBuilderPageFxns } from "../../../../../Utils/useBuilderPageFxns";
 
 const useAvailableQuestionsAfterSelected = (
-  selectedQuestionIndex: number
+  selectedQuestionId: string
 ): AvailableQuestionListFlatArrayProps[] => {
   const { surveyData } = useAppStateMgtContext();
   const { getQuestionNumber } = useBuilderPageFxns();
@@ -26,24 +26,25 @@ const useAvailableQuestionsAfterSelected = (
             sectionIndex,
             questionIndex,
             surveyData.sections.length
-            ),
-            availableQuestionArrayIndex: questions.length
+          ),
+          availableQuestionArrayIndex: questions.length,
         });
       });
     });
 
     return questions;
   }, [surveyData, getQuestionNumber]);
-    
+
   const updatedQuestions = React.useMemo(() => {
-    return flatSortedQuestions.filter(
-      (question, index) => index > selectedQuestionIndex
-      // {
-      //   const currentIndex = question.questionSectionIndexNumber * surveyData.sections.length + question.questionItemIndexNumber;
-      //   return currentIndex > selectedQuestionIndex;
-      // }
+    if (!selectedQuestionId) return flatSortedQuestions;
+    const selectedIndex = flatSortedQuestions.findIndex(
+      (q) => q.questionFrame.id === selectedQuestionId
     );
-  }, [flatSortedQuestions, selectedQuestionIndex]);
+    if (selectedIndex === -1) return flatSortedQuestions;
+    return flatSortedQuestions.filter(
+      (_question, index) => index > selectedIndex
+    );
+  }, [flatSortedQuestions, selectedQuestionId]);
 
   return updatedQuestions;
 };

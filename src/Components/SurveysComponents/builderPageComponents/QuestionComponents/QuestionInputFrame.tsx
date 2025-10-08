@@ -1,5 +1,11 @@
 import React from "react";
 import style from "./questionComponents.module.css";
+import { useAppStateMgtContext } from "../../../../Utils/AppContext";
+import {
+  QuestionFrameProps,
+  QuestionInputFrameComponentProps,
+  sectionTypeProps,
+} from "../../../../Utils/dataTypes";
 import MultipleChoiceInputOptions from "./MultipleChoiceInputOptions";
 import CheckboxInputOptions from "./CheckboxInputOptions";
 import DropDownInputOptions from "./DropDownInputOptions";
@@ -7,11 +13,9 @@ import ParagraphInputOptions from "./ParagraphInputOptions";
 import RatingInputOptions from "./RatingOptionsContainer";
 import DateTimeFileInputOption from "./DateTimeFileInputOption";
 
-type QuestionInputFramePropsType = {
-  questionType: string;
-};
-
-const QuestionInputFrame: React.FC<QuestionInputFramePropsType> = ({
+const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
+  questionFrame,
+  sectionId,
   questionType,
 }) => {
   // Initially show only one option (Option 1)
@@ -49,13 +53,42 @@ const QuestionInputFrame: React.FC<QuestionInputFramePropsType> = ({
   React.useEffect(() => {
     setOptionsNumberArray(["Option 1"]);
     setVisibleOptions(1);
-  }, [questionType]);
+  }, [questionFrame.questionTypeValue]);
+
+  // Autosave textarea state and persist to AppContext.sections
+  const { setSections } = useAppStateMgtContext();
+  const [text, setText] = React.useState<string>(
+    questionFrame.questionText || ""
+  );
+
+  React.useEffect(() => {
+    setText(questionFrame.questionText || "");
+  }, [questionFrame.questionText]);
+
+  const handleTextChange = (value: string) => {
+    setText(value);
+    // Persist change to global sections state
+    setSections((prev: sectionTypeProps) =>
+      prev.map((s) =>
+        s.id === sectionId
+          ? {
+              ...s,
+              questionFrames: s.questionFrames.map((q: QuestionFrameProps) =>
+                q.id === questionFrame.id ? { ...q, questionText: value } : q
+              ),
+            }
+          : s
+      )
+    );
+  };
 
   return (
     <section className={style.questionInputFrame_wrapper}>
       <textarea
         placeholder="Enter your question here"
         className={style.questionInputFrame_textarea}
+        value={text}
+        onChange={(e) => handleTextChange(e.target.value)}
       />
       {questionType === "multiple-choice" ? (
         <MultipleChoiceInputOptions

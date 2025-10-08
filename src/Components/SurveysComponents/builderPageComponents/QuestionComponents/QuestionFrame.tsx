@@ -8,8 +8,6 @@ import QuestionFooter from "./QuestionFooter";
 // import { QuestionTypeSelectList } from "./questionTypeSelectListArray";
 import { QuestionFrameComponentProps } from "../../../../Utils/dataTypes";
 
-
-
 const QuestionFrame: React.FC<QuestionFrameComponentProps> = ({
   sectionId,
   questionType,
@@ -17,7 +15,7 @@ const QuestionFrame: React.FC<QuestionFrameComponentProps> = ({
   dragHandleProps,
   itemIndex,
   sectionIndex,
-  totalSections
+  totalSections,
 }) => {
   // const [questionType, setQuestionType] =
   //   React.useState<QuestionTypeSelectProps>({
@@ -29,7 +27,11 @@ const QuestionFrame: React.FC<QuestionFrameComponentProps> = ({
   return (
     <section className={style.questionFrame_wrapper}>
       <div className={style.questionFrame_main}>
-        <QuestionInputType questionType={questionType.questionTypeValue} />
+        <QuestionInputType
+          questionType={questionType.questionTypeValue}
+          questionFrame={questionType}
+          sectionId={sectionId}
+        />
         <QuestionTypeSelect
           sectionId={sectionId}
           questionType={questionType}
