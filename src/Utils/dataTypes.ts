@@ -329,3 +329,10 @@ export type UsePipingArgs = {
   setSections?: React.Dispatch<React.SetStateAction<sectionTypeProps>>;
   selectedQuestionId?: string;
 };
+
+// -----------------------------------------------------------------------------
+
+export type PipingSidebarProps = {
+  availableQuestions: AvailableQuestionForPiping[];
+  insertTokenFor: (id: string) => void;
+};

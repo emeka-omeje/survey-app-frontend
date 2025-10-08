@@ -1,11 +1,8 @@
 import React from "react";
 import styles from "./piping.module.css";
-import { AvailableQuestionForPiping } from "../../../../../Utils/dataTypes";
+import { AvailableQuestionForPiping, PipingSidebarProps } from "../../../../../Utils/dataTypes";
 
-type PipingSidebarProps = {
-  availableQuestions: AvailableQuestionForPiping[];
-  insertTokenFor: (id: string) => void;
-};
+
 
 const PipingSidebar: React.FC<PipingSidebarProps> = ({
   availableQuestions,
