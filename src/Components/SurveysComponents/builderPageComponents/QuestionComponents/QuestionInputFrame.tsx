@@ -18,6 +18,10 @@ const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
   sectionId,
   questionType,
 }) => {
+  const [questionTypeOptions, setQuestionTypeOptions] = React.useState<
+    string[] | undefined
+  >(questionFrame.questionTypeOptions);
+
   // Initially show only one option (Option 1)
   const [visibleOptions, setVisibleOptions] = React.useState(1);
   const [optionsNumberArray, setOptionsNumberArray] = React.useState([
@@ -32,6 +36,29 @@ const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
     const updatedOptions = [...optionsNumberArray];
     updatedOptions[index] = value;
     setOptionsNumberArray(updatedOptions);
+    // update question type options state
+    setQuestionTypeOptions((prev) => {
+      const next = Array.isArray(prev) ? [...prev] : [];
+      // ensure length
+      while (next.length <= index) next.push("");
+      next[index] = value;
+      // persist to sections
+      setSections((prevSections: sectionTypeProps) =>
+        prevSections.map((s) =>
+          s.id === sectionId
+            ? {
+                ...s,
+                questionFrames: s.questionFrames.map((q) =>
+                  q.id === questionFrame.id
+                    ? { ...q, questionTypeOptions: next }
+                    : q
+                ),
+              }
+            : s
+        )
+      );
+      return next;
+    });
   };
   const handleSelectionChange = (selectedIndices: number[]) => {
     setSelectedOptions(selectedIndices);
@@ -41,19 +68,86 @@ const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
   // Trigger to reveal more options (e.g., options 2, 3, and 4)
   const handleAddOptions = () => {
     // Set visible options to 4 so that Option 1 and Options 2-4 appear
+    if (visibleOptions >= 5) return;
+
     setVisibleOptions((prev) => prev + 1);
-    setOptionsNumberArray((prev) => [...prev, `Option ${prev.length + 1}`]);
+    setOptionsNumberArray((prev) => {
+      const nextLabels = [...prev];
+      if (prev.length < 4) nextLabels.push(`Option ${prev.length + 1}`);
+      else nextLabels.push(`Others`);
+
+      // also update questionTypeOptions by appending an empty placeholder
+      setQuestionTypeOptions((prevOpts) => {
+        const next = Array.isArray(prevOpts) ? [...prevOpts] : [];
+        next.push("");
+        // persist
+        setSections((prevSections: sectionTypeProps) =>
+          prevSections.map((s) =>
+            s.id === sectionId
+              ? {
+                  ...s,
+                  questionFrames: s.questionFrames.map((q) =>
+                    q.id === questionFrame.id
+                      ? { ...q, questionTypeOptions: next }
+                      : q
+                  ),
+                }
+              : s
+          )
+        );
+        return next;
+      });
+
+      return nextLabels;
+    });
   };
 
   const handleRemoveOptions = () => {
     setVisibleOptions((prev) => prev - 1);
-    setOptionsNumberArray((prev) => prev.slice(0, prev.length - 1));
+    setOptionsNumberArray((prev) => {
+      const nextLabels = prev.slice(0, prev.length - 1);
+      setQuestionTypeOptions((prevOpts) => {
+        const next = Array.isArray(prevOpts)
+          ? prevOpts.slice(0, prevOpts.length - 1)
+          : [];
+        // persist
+        setSections((prevSections: sectionTypeProps) =>
+          prevSections.map((s) =>
+            s.id === sectionId
+              ? {
+                  ...s,
+                  questionFrames: s.questionFrames.map((q) =>
+                    q.id === questionFrame.id
+                      ? { ...q, questionTypeOptions: next }
+                      : q
+                  ),
+                }
+              : s
+          )
+        );
+        return next;
+      });
+      return nextLabels;
+    });
   };
 
   React.useEffect(() => {
-    setOptionsNumberArray(["Option 1"]);
-    setVisibleOptions(1);
-  }, [questionFrame.questionTypeValue]);
+    const frameOpts = Array.isArray(questionFrame.questionTypeOptions)
+      ? questionFrame.questionTypeOptions
+      : undefined;
+    if (frameOpts && frameOpts.length > 0) {
+      // use existing options from frame
+      setOptionsNumberArray(
+        frameOpts.map((o, i) => (o && o.trim() ? o : `Option ${i + 1}`))
+      );
+      setVisibleOptions(frameOpts.length);
+    } else {
+      setOptionsNumberArray(["Option 1"]);
+      setVisibleOptions(1);
+    }
+    // reset questionTypeOptions to existing or a single empty option
+    setQuestionTypeOptions(questionFrame.questionTypeOptions ?? [""]);
+  }, [questionFrame.questionTypeValue, questionFrame.questionTypeOptions]);
 
   // Autosave textarea state and persist to AppContext.sections
   const { setSections } = useAppStateMgtContext();
@@ -83,7 +177,10 @@ const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
   };
 
   return (
-    <section className={style.questionInputFrame_wrapper}>
+    <section
+      className={style.questionInputFrame_wrapper}
+      data-qtype-options={questionTypeOptions?.join("|")}
+    >
       <textarea
         placeholder="Enter your question here"
         className={style.questionInputFrame_textarea}

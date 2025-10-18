@@ -20,10 +20,16 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
   totalSections,
 }) => {
   // const { surveyData, setSurveyData } = useAppStateMgtContext();
-  const {getQuestionNumber} = useBuilderPageFxns()
+  const { getQuestionNumber } = useBuilderPageFxns();
+
+  const [openMore, setOpenMore] = React.useState(false);
 
   // if (!sectionIndex) return null;
-  const questionNumber = getQuestionNumber(sectionIndex, itemIndex, totalSections);
+  const questionNumber = getQuestionNumber(
+    sectionIndex,
+    itemIndex,
+    totalSections
+  );
 
   return (
     <div className={style.questionInputFooter_wrapper}>
@@ -77,12 +83,15 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
             questionId={questionId}
           />
         </span>
-        <ListEachItemOtherProps
-          Icon={IoMdMore}
-          toolTip="More"
-          IconSize="24px"
-          fontSize="10px"
-        />
+        <span onClick={()=> setOpenMore(!openMore)}>
+          
+          <ListEachItemOtherProps
+            Icon={IoMdMore}
+            toolTip="More"
+            IconSize="24px"
+            fontSize="10px"
+          />
+        </span>
       </div>
     </div>
   );

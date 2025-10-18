@@ -20,11 +20,13 @@ const CheckboxInputOptions: React.FC<QuestionCheckboxOptionsProps> = ({
   handleAddOptions,
   onSelectionChange,
 }) => {
-      // const [optionsNumberArray, setOptionsNumberArray] = React.useState([
-      //   "Option 1",
-      // ]);
+  // const [optionsNumberArray, setOptionsNumberArray] = React.useState([
+  //   "Option 1",
+  // ]);
   // Maintain an array of indices representing which options are checked
   const [selectedOptions, setSelectedOptions] = React.useState<number[]>([]);
+
+  const  [eachQuestionOptionText, setEachQuestionOptionText] = React.useState<string>('');
 
   const handleCheckboxChange = (index: number) => {
     let updatedSelection: number[];
@@ -43,30 +45,32 @@ const CheckboxInputOptions: React.FC<QuestionCheckboxOptionsProps> = ({
 
   return (
     <div className={style.questionInputOptions_main}>
-      {optionsNumberArray.slice(0, visibleOptions).map((eachOptionNumber, index) => (
-        <div key={index} className={style.option}>
-          <input
-            type="checkbox"
-            name="checkboxOptions"
-            id={`checkbox-${index}`}
-            value={eachOptionNumber}
-            checked={selectedOptions.includes(index)}
-            onChange={() => handleCheckboxChange(index)}
-          />
-          <input
-            type="text"
-            placeholder={`Option ${index + 1}`}
-            className={style.optionInputText}
-            onChange={(e) => onOptionChange(index, e.target.value)}
-            onClick={handleAddOptions}
-          />
-          {index > 0 && (
-            <span onClick={() => handleRemoveOption()}>
-              <MdOutlineCancel size={18} />
-            </span>
-          )}
-        </div>
-      ))}
+      {optionsNumberArray
+        .slice(0, visibleOptions)
+        .map((eachOptionNumber, index) => (
+          <div key={index} className={style.option}>
+            <input
+              type="checkbox"
+              name="checkboxOptions"
+              id={`checkbox-${index}`}
+              value={eachOptionNumber}
+              checked={selectedOptions.includes(index)}
+              onChange={() => handleCheckboxChange(index)}
+            />
+            <input
+              type="text"
+              placeholder={`Option ${index + 1}`}
+              className={style.optionInputText}
+              onChange={(e) => onOptionChange(index, e.target.value)}
+              onClick={() => handleAddOptions}
+            />
+            {index > 0 && (
+              <span onClick={() => handleRemoveOption()}>
+                <MdOutlineCancel size={18} />
+              </span>
+            )}
+          </div>
+        ))}
     </div>
   );
 };

@@ -73,16 +73,48 @@ export type QuestionTypeSelectList = {
   icon: IconName | null;
 };
 
+// file metadata for file-upload questions
+export type FileUploadMeta = {
+  id: string;
+  name: string;
+  size?: number;
+  mimeType?: string;
+  url?: string; // stored URL or blob reference
+  uploadedAt?: string; // ISO datetime
+};
+
+// unified response/default value type that covers all question types
+export type ResponseValue =
+  | string // text, single-select option, date/time ISO, etc.
+  | number // rating or numeric responses
+  | boolean // if/when boolean question exists
+  | string[] // checkboxes or multi-value responses
+  | number[] // numeric list if needed
+  | FileUploadMeta[]; // files uploaded
+
 // This defines the structure of a survey section & question frames
+// Then update QuestionFrameProps:
 export type QuestionFrameProps = {
   id: `${string}-${string}-${string}-${string}-${string}`;
   questionText: string;
-  assignedPoint: number; // Optional property for assigned number
+  assignedPoint: number;
   questionTypeValue: string;
   questionTypeLabel: string;
   questionTypeIcon: IconName | null;
+  questionTypeOptions?: string[]; // for options-based questions
   required: boolean;
   logic: LogicCondition[] | null;
+
+  // Default / prefill properties
+  defaultValue?: ResponseValue | null;
+  defaultEditable?: boolean;
+  defaultSource?: string; // e.g., 'static' | 'url' | 'crm'
+
+  // Optional attribute meta (helps quota/logic UIs reference question attribute)
+  attribute?: string;
+
+  // (optional) current response value on the respondent side
+  responseValue?: ResponseValue | null;
 };
 
 export type sectionTypeProps = {
@@ -159,6 +191,78 @@ export type surveyTypeProps = {
     | "offline";
   accountUser?: string | null; // Property for account user
   surveyCreator?: string | null; // Optional property for survey creator
+  // Optional quotas metadata (authoring-only)
+  quotas?: Quota[];
+};
+
+// Quota type shared by Quotas components
+export type Quota = {
+  id: string;
+  name: string;
+  attribute: string;
+  values: string[];
+  limit: number;
+  count: number;
+  action: "terminate" | "redirect" | "message";
+  actionTarget?: string;
+  // optional additional config when action is redirect or message
+  redirectUrl?: string;
+  displayMessage?: string;
+};
+
+// Default/Prefill components props
+export type DefaultPrefilRowProps = {
+  question: QuestionFrameProps;
+  onChange: (delta: Partial<QuestionFrameProps>) => void;
+  questionNumber?: string;
+};
+
+export type DefaultprefilRenderProps = {
+  localSections: sectionTypeProps;
+  getQuestionNumber: (
+    sectionIdx: number,
+    questionIdx: number,
+    totalSections: number
+  ) => string;
+  onRowChange: (
+    sectionId: string,
+    questionId: string,
+    delta: Partial<QuestionFrameProps>
+  ) => void;
+};
+
+export type DefaultPrefilButtonVariant = "primary" | "secondary";
+
+export type DefaultPrefilButtonProps = {
+  buttonLabel: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  variant?: DefaultPrefilButtonVariant;
+  type?: "button" | "submit" | "reset";
+  ariaLabel?: string;
+  disabled?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+};
+
+// Quota component prop types
+export type QuotaRowProps = {
+  quota: Quota;
+  onEdit: (q: Quota) => void;
+  onDelete: (id: string) => void;
+};
+
+export type AddEditQuotaModalProps = {
+  initial?: Quota;
+  onClose: () => void;
+  onSave: (q: Quota) => void;
+  availableAttributes: string[];
+  // optional mapping from attribute name -> available option strings (for dropdown/checklist)
+  attributeOptions?: Record<string, string[]>;
+};
+
+// Panel props for Default Prefil panel
+export type DefaultPrefilPanelProps = {
+  onClose?: () => void;
 };
 
 // Type for AutoSaveHook Props
