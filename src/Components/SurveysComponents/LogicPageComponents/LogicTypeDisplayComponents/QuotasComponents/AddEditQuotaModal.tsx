@@ -12,7 +12,7 @@ const emptyQuota = (): Quota => ({
   name: "",
   attribute: "",
   values: [],
-  limit: 10,
+  limit: 5,
   count: 0,
   action: "terminate",
 });
@@ -23,6 +23,7 @@ const AddEditQuotaModal: React.FC<AddEditQuotaModalProps> = ({
   availableAttributes,
   attributeOptions,
 }) => {
+  
   const [quota, setQuota] = useState<Quota>(initial ?? emptyQuota());
   const [valuesText, setValuesText] = useState(
     (initial && initial.values.join(", ")) ?? ""
@@ -50,6 +51,18 @@ const AddEditQuotaModal: React.FC<AddEditQuotaModalProps> = ({
       setSelectedOptions(initial.values ?? []);
     }
   }, [initial]);
+
+  // Keep selectedOptions restricted to the currently selected attribute when
+  // custom values are disabled, and sync when attribute or available options change.
+  useEffect(() => {
+    if (allowCustomValues) return; // nothing to do when custom values allowed
+
+    const optsForAttribute =
+      (attributeOptions && quota.attribute ? attributeOptions[quota.attribute] : []) ?? [];
+
+    // Intersect previous selection with available options for the selected attribute.
+    setSelectedOptions((prev) => prev.filter((v) => optsForAttribute.includes(v)));
+  }, [allowCustomValues, quota.attribute, attributeOptions]);
 
   useEffect(() => {
     // simple validation

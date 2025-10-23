@@ -10,12 +10,12 @@ const ScoringHeader: React.FC = () => {
   return (
     <div className={style.scoring_headerControls}>
       <label className={style.switchLabel}>
+        <span>Survey is a quiz: </span>
         <input
           type="checkbox"
           checked={scoringModeAuto}
           onChange={() => setScoringModeAuto((s) => !s)}
         />
-        <span>Auto-sum preview</span>
       </label>
       <ScoringHeaderBTN
         handleClickFXN={saveChanges}

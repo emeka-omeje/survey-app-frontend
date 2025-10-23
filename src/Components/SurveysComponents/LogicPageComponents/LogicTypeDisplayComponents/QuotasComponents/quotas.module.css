@@ -1,17 +1,33 @@
 .quotas_wrapper {
-  width: 100%;
+  /* width: 100%;
   padding: 18px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: transparent;
+  background: transparent; */
+    width: 100%;
+  max-width: 980px;
+  margin: 10px auto;
+  background: #fff;
+  border: 1px solid var(--color-border, #e6e6e6);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(26, 45, 78, 0.06);
+  display: flex;
+  flex-direction: column;
+  /* padding: 18px; */
+  /* box-sizing: border-box; */
 }
 .quotas_header {
+  /* display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px; */
+    padding: 10px 24px;
+  border-bottom: 1px solid var(--light-grey, #efefef);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
 }
 .quotas_title {
   font-size: 20px;
@@ -24,8 +40,8 @@
   align-items: center;
 }
 .small {
-  font-size: 13px;
-  color: var(--faded-black, #6b6b6b);
+  /* font-size: 14px; */
+  color:  #6b7280
 }
 .search_input {
   padding: 8px 10px;
@@ -63,9 +79,11 @@
 }
 .empty {
   color: var(--faded-black);
-  padding: 18px;
+  padding: 28px;
   background: #fafafa;
   border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
 }
 
 .quota_card {

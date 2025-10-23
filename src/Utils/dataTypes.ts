@@ -105,13 +105,29 @@ export type QuestionFrameProps = {
   required: boolean;
   logic: LogicCondition[] | null;
 
+  // whether to randomize choice order for this question (authoring metadata)
+  shuffleChoices?: boolean;
+
   // Default / prefill properties
   defaultValue?: ResponseValue | null;
   defaultEditable?: boolean;
   defaultSource?: string; // e.g., 'static' | 'url' | 'crm'
 
   // Optional attribute meta (helps quota/logic UIs reference question attribute)
-  attribute?: string;
+  // attribute can be a simple string (legacy) or a structured object with metadata
+  advancedConfigData?: {
+        attributeName: string;
+        attributeValues: string[];
+        variableName?: string;
+        // capture flags for hidden metadata fields
+        captureMetaData?: {
+          response_start_time?: boolean;
+          response_end_time?: boolean;
+          device_type?: boolean;
+          browser_info?: boolean;
+          referrer_url?: boolean;
+        };
+      };
 
   // (optional) current response value on the respondent side
   responseValue?: ResponseValue | null;

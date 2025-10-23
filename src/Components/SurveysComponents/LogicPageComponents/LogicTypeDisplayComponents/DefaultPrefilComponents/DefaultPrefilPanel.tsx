@@ -72,7 +72,7 @@ const DefaultPrefilLogic: React.FC<DefaultPrefilPanelProps> = ({ onClose }) => {
       <header className={styles.panel_header}>
         {/* <h3>Default Values</h3> */}
         <p className={styles.panel_sub}>
-          Configure default / prefilled answers for questions.
+          Prefill questions with default answers for respondents.
         </p>
       </header>
 

@@ -5,6 +5,7 @@ import { useBuilderPageFxns } from "../../../../../Utils/useBuilderPageFxns";
 import useScoringLogicFxns from "../../../../../Utils/LogicHandlers/useScoringLogicFxns";
 import ScoringSideBar from "./Scoring_SideBar";
 import EachScoringPoint_Control from "./EachScoringPoint_Control";
+import ScoringHeader from "../LogicTypeHeaderComponents/ScoringHeader";
 
 const ScoringLogic: React.FC = () => {
   const { sections } = useAppStateMgtContext();
@@ -92,56 +93,59 @@ const ScoringLogic: React.FC = () => {
   }
 
   return (
-    <section className={styles.scoring_body} aria-label="Scoring interface">
-      {/* Sidebar moved to ScoringSideBar component */}
-      <ScoringSideBar
-        applyAllValue={applyAllValue}
-        setApplyAllValue={setApplyAllValue}
-        applyPointsToAll={applyPointsToAll}
-        computeTotals={computeTotals}
-      />
+    <section className={styles.scoring_wrapper}>
+      <ScoringHeader />
+      <section className={styles.scoring_body} aria-label="Scoring interface">
+        {/* Sidebar moved to ScoringSideBar component */}
+        <ScoringSideBar
+          applyAllValue={applyAllValue}
+          setApplyAllValue={setApplyAllValue}
+          applyPointsToAll={applyPointsToAll}
+          computeTotals={computeTotals}
+        />
 
-      <main className={styles.scoring_main}>
-        {localSections.map((section, sIdx) => (
-          <section key={section.id} className={styles.sectionCard}>
-            <header className={styles.sectionHeader}>
-              <h4>{section.title}</h4>
-              <div className={styles.sectionTotal}>
-                {section.questionFrames.reduce(
-                  (acc, q) => acc + (q.assignedPoint ?? 0),
-                  0
-                )}{" "}
-                pts
-              </div>
-            </header>
-
-            <div className={styles.questionsList}>
-              {section.questionFrames.map((q, qIdx) => (
-                <div key={q.id} className={styles.questionRow}>
-                  <div className={styles.questionMeta}>
-                    <div className={styles.questionNumber}>
-                      {getQuestionNumber(sIdx, qIdx, sections.length)}
-                    </div>
-                    <div className={styles.questionText}>
-                      {q.questionText || "Untitled question"}
-                    </div>
-                    <div className={styles.questionType}>
-                      {q.questionTypeLabel}
-                    </div>
-                  </div>
-                  <EachScoringPoint_Control
-                    sectionId={section.id}
-                    questionId={q.id}
-                    assignedPoint={q.assignedPoint}
-                    onPointChange={handlePointChange}
-                  />
+        <main className={styles.scoring_main}>
+          {localSections.map((section, sIdx) => (
+            <section key={section.id} className={styles.sectionCard}>
+              <header className={styles.sectionHeader}>
+                <h4>{section.title}</h4>
+                <div className={styles.sectionTotal}>
+                  {section.questionFrames.reduce(
+                    (acc, q) => acc + (q.assignedPoint ?? 0),
+                    0
+                  )}{" "}
+                  pts
                 </div>
-              ))}
-            </div>
-          </section>
-        ))}
-      </main>
-      {/* </div> */}
+              </header>
+
+              <div className={styles.questionsList}>
+                {section.questionFrames.map((q, qIdx) => (
+                  <div key={q.id} className={styles.questionRow}>
+                    <div className={styles.questionMeta}>
+                      <div className={styles.questionNumber}>
+                        {getQuestionNumber(sIdx, qIdx, sections.length)}
+                      </div>
+                      <div className={styles.questionText}>
+                        {q.questionText || "Untitled question"}
+                      </div>
+                      <div className={styles.questionType}>
+                        {q.questionTypeLabel}
+                      </div>
+                    </div>
+                    <EachScoringPoint_Control
+                      sectionId={section.id}
+                      questionId={q.id}
+                      assignedPoint={q.assignedPoint}
+                      onPointChange={handlePointChange}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </main>
+        {/* </div> */}
+      </section>
     </section>
   );
 };

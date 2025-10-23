@@ -18,30 +18,63 @@ const QuotasPanel: React.FC = () => {
   // Build adaptive availableAttributes and attributeOptions from surveyData
 
   const { availableAttributesAdaptive, attributeOptions } = useMemo(() => {
-    let eachQuestionAttributeOptions: Record<string, string[]> = {};
-    // const questionAttribute: string = "";
+    const attributeOptionsMap: Record<string, string[]> = {};
+    const attrsSet = new Set<string>();
 
-    if (sections.length > 0) {
-      sections.forEach((section) => {
-        section.questionFrames.forEach((questionFrame) => {
-          // logic to extract attributes and options
-          const questionAttribute = questionFrame.attribute;
+    const defaultAttributes = [
+      "Country",
+      "Gender",
+      "Age Group",
+      "Region",
+      "Language",
+    ];
 
-          if (
-            questionFrame.questionTypeValue === "Multiple Choice" ||
-            questionFrame.questionTypeValue === "Checkbox" ||
-            questionFrame.questionTypeValue === "Dropdown"
-          ) {
-            const optionsList = questionFrame.choicesList.map(
-              (choice) => choice.label
-            );
-            eachQuestionAttributeOptions[questionAttribute] =
-              optionsList as string[];
+    sections.forEach((section) => {
+      section.questionFrames.forEach((q) => {
+        // Prefer advancedConfigData.attributeName, then questionText as fallback
+        const adv = q.advancedConfigData;
+        let attrName: string | undefined = adv?.attributeName;
+
+        if (!attrName && typeof q.questionText === "string") {
+          attrName = q.questionText;
+        }
+
+        if (!attrName) return; // skip if no sensible attribute name
+
+        attrsSet.add(attrName);
+
+        // Determine options: prefer advancedConfigData.attributeValues, else questionTypeOptions, else choicesList-like structures
+        let opts: string[] | undefined = adv?.attributeValues;
+
+        if (!Array.isArray(opts) || opts.length === 0) {
+          if (Array.isArray(q.questionTypeOptions) && q.questionTypeOptions.length > 0) {
+            opts = q.questionTypeOptions.filter((v) => typeof v === "string");
+          } else {
+            // try to read a possible choicesList/choices from the frame using unknown casts
+            const maybe = q as unknown as Record<string, unknown>;
+            if (Array.isArray(maybe.choicesList)) {
+              opts = (maybe.choicesList as unknown[])
+                .map((c) => {
+                  if (c && typeof c === "object") {
+                    const obj = c as { label?: string };
+                    return obj.label ?? String(c);
+                  }
+                  return String(c);
+                })
+                .filter(Boolean);
+            }
           }
-        });
+        }
+
+        attributeOptionsMap[attrName] = opts ?? attributeOptionsMap[attrName] ?? [];
       });
-    }
-  }, []);
+    });
+
+    const availableAttributesAdaptive =
+      Array.from(attrsSet).length > 0 ? Array.from(attrsSet) : defaultAttributes;
+
+    return { availableAttributesAdaptive, attributeOptions: attributeOptionsMap };
+  }, [sections]);
 
   // const { availableAttributesAdaptive, attributeOptions } = useMemo(() => {
   // const sd = surveyData as unknown as Record<string, unknown> | undefined;
@@ -150,10 +183,10 @@ const QuotasPanel: React.FC = () => {
     <div className={styles.quotas_wrapper}>
       <header className={styles.quotas_header}>
         <div>
-          <h2 className={styles.quotas_title}>Quota Control</h2>
-          <div className={styles.small}>
-            Define respondent quotas and actions when limits are reached.
-          </div>
+          {/* <h2 className={styles.quotas_title}>Quota Control</h2> */}
+          <p className={styles.small}>
+            Define quota limits &amp; actions
+          </p>
         </div>
 
         <div className={styles.quotas_actions}>

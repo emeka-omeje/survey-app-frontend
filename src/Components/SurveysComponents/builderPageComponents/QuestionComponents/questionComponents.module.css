@@ -88,6 +88,20 @@
 .moreConfig_wrapper {
   position: relative;
   cursor: pointer;
+  /* padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    /* color: var(--primary-black); */
+    /* background-color: var(--not-light-purple);;
+    border-radius: 6px; */
+}
+
+.moreConfig_container {
+  /* position: relative; */
+  cursor: pointer;
   padding: 8px;
   display: flex;
   align-items: center;
@@ -121,7 +135,118 @@
 }
 
 
+/* Modal styles for advanced configuration Question Configure Modal */
+.modal_backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 24, 40, 0.5);
+  z-index: 999;
+}
+.modal_card {
+  width: 720px;
+  max-width: calc(100% - 48px);
+  background: var(--primary-white);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.modal_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal_close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+}
+.modal_body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.field_label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field_input {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+.field_hint {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+.toggle_row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+.section_separator {
+  height: 1px;
+  background: var(--color-border);
+  margin: 8px 0 12px;
+}
+.section_title {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+.hidden_grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+}
+.hidden_item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.modal_footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--color-border);
+}
+.btn_primary {
+  background: var(--light-navy-blue);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn_secondary {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
+
+/* ......................................... */
+/* ................................................................................................................................. */
+/* ......................................... */
+/* ................................................................................................................................. */
 
 /* QuestionType Select CSS */
 .questionTypeSelect_main {

@@ -32,7 +32,7 @@ const BuilderContentHeader: React.FC<BuilderContentHeaderProps> = ({
   const { setFrameCall } = useAppStateMgtContext();
 
   return (
-    <span className={style.builderContentHeader_main}>
+    <div className={style.builderContentHeader_main}>
       <span onClick={() => addQuestionFrameToLastSection()}>
         <ListEachItemOtherProps
           Icon={IoMdAddCircleOutline}
@@ -42,7 +42,7 @@ const BuilderContentHeader: React.FC<BuilderContentHeaderProps> = ({
       </span>
       <ListEachItemOtherProps
         Icon={RiTextSnippet}
-        toolTip="Add title and description"
+        toolTip="Add title/description"
         getCallBack={setFrameCall}
       />
       <span onClick={() => addSection(questionTypeSelectListArray)}>
@@ -54,7 +54,7 @@ const BuilderContentHeader: React.FC<BuilderContentHeaderProps> = ({
         toolTip="Add page"
         fontSize="10px"
       />
-    </span>
+    </div>
   );
 };
 

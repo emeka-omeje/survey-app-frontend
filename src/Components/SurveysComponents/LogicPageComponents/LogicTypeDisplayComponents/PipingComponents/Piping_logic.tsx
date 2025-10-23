@@ -132,12 +132,12 @@ const PipingLogic: React.FC = () => {
         <p className={styles.piping_sub}>
           Insert answers from earlier questions into later text.
         </p>
-        {autoSelectWarning && (
-          <div className={styles.autoSelectWarning} role="status">
-            {autoSelectWarning}
-          </div>
-        )}
       </header>
+      {autoSelectWarning && (
+        <div className={styles.autoSelectWarning} role="status">
+          {autoSelectWarning}
+        </div>
+      )}
 
       <div className={styles.piping_body}>
         <PipingSidebar
