@@ -1,55 +1,67 @@
 import React from "react";
 import style from "./questionComponents.module.css";
 import { MdOutlineCancel } from "react-icons/md";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import { QuestionOptionItem } from "../../../../Utils/dataTypes";
 
 type QuestionInputOptionsProps = {
-  visibleOptions: number;
-  handleRemoveOptions: () => void;
+  numberOfOptionsCreated: number;
+  handleRemoveOptions: (id: string) => void;
   handleAddOptions: () => void;
-  optionsNumberArray: string[];
+  optionItemArray: QuestionOptionItem[];
+  handleOptionTextChange: (id: string, newText: string) => void;
 };
 
 const MultipleChoiceInputOptions: React.FC<QuestionInputOptionsProps> = ({
-  visibleOptions,
+  numberOfOptionsCreated,
   handleRemoveOptions,
   handleAddOptions,
-  optionsNumberArray,
+  optionItemArray,
+  handleOptionTextChange,
 }) => {
   // Define placeholders for each option
-  // const [optionsNumberArray, setOptionsNumberArray] = React.useState([
+  // const [optionItemArray, setoptionItemArray] = React.useState([
   //   "Option 1",
   // ]);
 
-  // Render only the number of options specified by visibleOptions
+  // Render only the number of options specified by numberOfOptionsCreated
   return (
     <div className={style.questionInputOptions_main}>
-      {optionsNumberArray
-        .slice(0, visibleOptions)
-        .map((eachOptionNumber, index) => (
-          <div key={index} className={style.option}>
+      {optionItemArray
+        .slice(0, numberOfOptionsCreated)
+        .map((eachOptionItem, index) => (
+          <div key={eachOptionItem.id} className={style.option}>
             <input
               type="radio"
               name="multipleChoiceOptions"
-              id={`option${index}`}
-              value={eachOptionNumber}
+              id={eachOptionItem.id}
+              // value={eachOptionItem.text}
             />
             {/* <label htmlFor={`option${index}`}>{eachPlaceholder}</label> */}
             <input
               type="text"
               placeholder={`Option ${index + 1}`}
               className={style.optionInputText}
-              onChange={(e) => {
-                optionsNumberArray[index] = e.target.value;
-              }}
-              onClick={handleAddOptions}
+              value={eachOptionItem.text}
+              onChange={(e) =>
+                handleOptionTextChange(eachOptionItem.id, e.target.value)
+              }
+              // onClick={handleAddOptions}
             />
-            {index > 0 && (
-              <span onClick={handleRemoveOptions}>
+            {numberOfOptionsCreated > 0 && (
+              <span onClick={() => handleRemoveOptions(eachOptionItem.id)}>
                 <MdOutlineCancel size={18} />
               </span>
             )}
           </div>
         ))}
+      <span
+        className={style.questionInputOptions_add}
+        onClick={handleAddOptions}
+      >
+        <IoMdAddCircleOutline size={18} />
+        Add
+      </span>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useAppStateMgtContext } from "../../../../Utils/AppContext";
 import {
   QuestionFrameProps,
   QuestionInputFrameComponentProps,
+  QuestionOptionItem,
   sectionTypeProps,
 } from "../../../../Utils/dataTypes";
 import MultipleChoiceInputOptions from "./MultipleChoiceInputOptions";
@@ -12,147 +13,46 @@ import DropDownInputOptions from "./DropDownInputOptions";
 import ParagraphInputOptions from "./ParagraphInputOptions";
 import RatingInputOptions from "./RatingOptionsContainer";
 import DateTimeFileInputOption from "./DateTimeFileInputOption";
+import useDebouncedPersistOptionTexts from "../../../../Utils/BuilderHandlers/useQuestionOptionDebounce";
 
 const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
   questionFrame,
   sectionId,
   questionType,
 }) => {
-  const [questionTypeOptions, setQuestionTypeOptions] = React.useState<
-    string[] | undefined
-  >(questionFrame.questionTypeOptions);
+  // create an id helper (simple fallback)
+  const makeId = () => `opt_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-  // Initially show only one option (Option 1)
-  const [visibleOptions, setVisibleOptions] = React.useState(1);
-  const [optionsNumberArray, setOptionsNumberArray] = React.useState([
-    "Option 1",
-  ]);
+  // Pull AppContext setter higher so handler functions below can persist changes
+  const { setSections } = useAppStateMgtContext();
 
-  // This is for CheckboxInputOptions
-  const [selectedOptions, setSelectedOptions] = React.useState<number[]>([]);
-
-  // This is for CheckboxInputOptions
-  const handleOptionChange = (index: number, value: string) => {
-    const updatedOptions = [...optionsNumberArray];
-    updatedOptions[index] = value;
-    setOptionsNumberArray(updatedOptions);
-    // update question type options state
-    setQuestionTypeOptions((prev) => {
-      const next = Array.isArray(prev) ? [...prev] : [];
-      // ensure length
-      while (next.length <= index) next.push("");
-      next[index] = value;
-      // persist to sections
-      setSections((prevSections: sectionTypeProps) =>
-        prevSections.map((s) =>
-          s.id === sectionId
-            ? {
-                ...s,
-                questionFrames: s.questionFrames.map((q) =>
-                  q.id === questionFrame.id
-                    ? { ...q, questionTypeOptions: next }
-                    : q
-                ),
-              }
-            : s
-        )
-      );
-      return next;
-    });
-  };
-  const handleSelectionChange = (selectedIndices: number[]) => {
-    setSelectedOptions(selectedIndices);
-    console.log(selectedOptions);
+  const optionItemsToStrings = (items: QuestionOptionItem[]) => {
+    return items.map((i) => i.text);
   };
 
-  // Trigger to reveal more options (e.g., options 2, 3, and 4)
-  const handleAddOptions = () => {
-    // Set visible options to 4 so that Option 1 and Options 2-4 appear
-    if (visibleOptions >= 5) return;
-
-    setVisibleOptions((prev) => prev + 1);
-    setOptionsNumberArray((prev) => {
-      const nextLabels = [...prev];
-      if (prev.length < 4) nextLabels.push(`Option ${prev.length + 1}`);
-      else nextLabels.push(`Others`);
-
-      // also update questionTypeOptions by appending an empty placeholder
-      setQuestionTypeOptions((prevOpts) => {
-        const next = Array.isArray(prevOpts) ? [...prevOpts] : [];
-        next.push("");
-        // persist
-        setSections((prevSections: sectionTypeProps) =>
-          prevSections.map((s) =>
-            s.id === sectionId
-              ? {
-                  ...s,
-                  questionFrames: s.questionFrames.map((q) =>
-                    q.id === questionFrame.id
-                      ? { ...q, questionTypeOptions: next }
-                      : q
-                  ),
-                }
-              : s
-          )
-        );
-        return next;
-      });
-
-      return nextLabels;
-    });
-  };
-
-  const handleRemoveOptions = () => {
-    setVisibleOptions((prev) => prev - 1);
-    setOptionsNumberArray((prev) => {
-      const nextLabels = prev.slice(0, prev.length - 1);
-      setQuestionTypeOptions((prevOpts) => {
-        const next = Array.isArray(prevOpts)
-          ? prevOpts.slice(0, prevOpts.length - 1)
-          : [];
-        // persist
-        setSections((prevSections: sectionTypeProps) =>
-          prevSections.map((s) =>
-            s.id === sectionId
-              ? {
-                  ...s,
-                  questionFrames: s.questionFrames.map((q) =>
-                    q.id === questionFrame.id
-                      ? { ...q, questionTypeOptions: next }
-                      : q
-                  ),
-                }
-              : s
-          )
-        );
-        return next;
-      });
-      return nextLabels;
-    });
-  };
-
-  React.useEffect(() => {
-    const frameOpts = Array.isArray(questionFrame.questionTypeOptions)
-      ? questionFrame.questionTypeOptions
-      : undefined;
-    if (frameOpts && frameOpts.length > 0) {
-      // use existing options from frame
-      setOptionsNumberArray(
-        frameOpts.map((o, i) => (o && o.trim() ? o : `Option ${i + 1}`))
-      );
-      setVisibleOptions(frameOpts.length);
-    } else {
-      setOptionsNumberArray(["Option 1"]);
-      setVisibleOptions(1);
-    }
-    // reset questionTypeOptions to existing or a single empty option
-    setQuestionTypeOptions(questionFrame.questionTypeOptions ?? [""]);
-  }, [questionFrame.questionTypeValue, questionFrame.questionTypeOptions]);
+  // Option texts shown for the current question (e.g., ['Yes', 'No'])
+  const [optionItemArray, setOptionItemArray] = React.useState<
+    QuestionOptionItem[]
+  >(
+    questionFrame.questionTypeOptions
+      ? questionFrame.questionTypeOptions.map((text) => ({
+          id: makeId(),
+          text,
+        }))
+      : [{ id: makeId(), text: "" }]
+  );
 
   // Autosave textarea state and persist to AppContext.sections
-  const { setSections } = useAppStateMgtContext();
   const [text, setText] = React.useState<string>(
     questionFrame.questionText || ""
+  );
+
+  const { flush } = useDebouncedPersistOptionTexts(
+    optionItemsToStrings(optionItemArray),
+    sectionId,
+    questionFrame.id,
+    setSections,
+    300
   );
 
   React.useEffect(() => {
@@ -176,10 +76,157 @@ const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
     );
   };
 
+  const handleOptionTextChange = (id: string, newText: string) => {
+    setOptionItemArray((prev) => {
+      const next = prev.map((item) =>
+        item.id === id ? { ...item, text: newText } : item
+      );
+      return next;
+    });
+  };
+
+  // when adding/removing an option (structural change), persist immediately:
+  const handleAddOptions = () => {
+    setOptionItemArray((prev) => {
+      if (prev.length >= 5) return prev; // max 5 options
+      const next = [...prev, { id: makeId(), text: "" }];
+      return next;
+    });
+    flush(); // persist structure immediately
+  };
+
+const handleRemoveOptions = (id: string) => {
+    setOptionItemArray((prev) => {
+      if (prev.length <= 1) return prev; // at least 1 option must remain
+      const next = prev.filter((item) => item.id !== id);
+      return next;
+    });
+    flush(); // persist structure immediately
+  };
+
+
+  // ................................................
+
+  // // For checkbox-type questions, track which option indices are selected (ref)
+  // const selectedOptionIndicesRef = React.useRef<number[]>([]);
+
+  // // Pull AppContext setter higher so handler functions below can persist changes
+  // const { setSections } = useAppStateMgtContext();
+
+  // // Update a single option text (optionTexts is the single source of truth)
+  // const handleOptionTextChange = (index: number, value: string) => {
+  //   setOptionTexts((previousOptionTexts) => {
+  //     const next = Array.isArray(previousOptionTexts) ? [...previousOptionTexts] : [];
+  //     while (next.length <= index) next.push("");
+  //     next[index] = value;
+
+  //     // persist to sections
+  //     setSections((previousSections: sectionTypeProps) =>
+  //       previousSections.map((section) =>
+  //         section.id === sectionId
+  //           ? {
+  //               ...section,
+  //               questionFrames: section.questionFrames.map((frame) =>
+  //                 frame.id === questionFrame.id
+  //                   ? { ...frame, questionTypeOptions: next }
+  //                   : frame
+  //               ),
+  //             }
+  //           : section
+  //       )
+  //     );
+
+  //     return next;
+  //   });
+  // };
+
+  // const handleSelectedOptionIndicesChange = (indices: number[]) => {
+  //   selectedOptionIndicesRef.current = indices;
+  //   // keep console for dev debugging if needed
+  //   console.log(indices);
+  // };
+
+  // // Reveal an additional option input row by appending an empty optionText
+  // const handleAddOptionRow = () => {
+  //   setOptionTexts((previousOptionTexts) => {
+  //     const next = Array.isArray(previousOptionTexts) ? [...previousOptionTexts] : [];
+  //     if (next.length >= 5) return next;
+  //     next.push("");
+  //     setSections((previousSections: sectionTypeProps) =>
+  //       previousSections.map((section) =>
+  //         section.id === sectionId
+  //           ? {
+  //               ...section,
+  //               questionFrames: section.questionFrames.map((frame) =>
+  //                 frame.id === questionFrame.id
+  //                   ? { ...frame, questionTypeOptions: next }
+  //                   : frame
+  //               ),
+  //             }
+  //           : section
+  //       )
+  //     );
+  //     return next;
+  //   });
+  // };
+
+  // // Remove the last visible option input row (ensure at least one remains)
+  // const handleRemoveOptionRow = () => {
+  //   setOptionTexts((previousOptionTexts) => {
+  //     const next = Array.isArray(previousOptionTexts) ? previousOptionTexts.slice(0, Math.max(1, previousOptionTexts.length - 1)) : [""];
+  //     setSections((previousSections: sectionTypeProps) =>
+  //       previousSections.map((section) =>
+  //         section.id === sectionId
+  //           ? {
+  //               ...section,
+  //               questionFrames: section.questionFrames.map((frame) =>
+  //                 frame.id === questionFrame.id
+  //                   ? { ...frame, questionTypeOptions: next }
+  //                   : frame
+  //               ),
+  //             }
+  //           : section
+  //       )
+  //     );
+  //     return next;
+  //   });
+  // };
+
+  // React.useEffect(() => {
+  //   // Initialize optionTexts from the question frame (or a single empty option)
+  //   setOptionTexts(questionFrame.questionTypeOptions ?? [""]);
+  // }, [questionFrame.questionTypeValue, questionFrame.questionTypeOptions]);
+
+  // // Autosave textarea state and persist to AppContext.sections
+  // const [text, setText] = React.useState<string>(
+  //   questionFrame.questionText || ""
+  // );
+
+  // React.useEffect(() => {
+  //   setText(questionFrame.questionText || "");
+  // }, [questionFrame.questionText]);
+
+  // const handleTextChange = (value: string) => {
+  //   setText(value);
+  //   // Persist change to global sections state
+  //   setSections((prev: sectionTypeProps) =>
+  //     prev.map((s) =>
+  //       s.id === sectionId
+  //         ? {
+  //             ...s,
+  //             questionFrames: s.questionFrames.map((q: QuestionFrameProps) =>
+  //               q.id === questionFrame.id ? { ...q, questionText: value } : q
+  //             ),
+  //           }
+  //         : s
+  //     )
+  //   );
+  // };
+
   return (
     <section
       className={style.questionInputFrame_wrapper}
-      data-qtype-options={questionTypeOptions?.join("|")}
+      // data-qtype-options={optionTexts?.join("|")}
     >
       <textarea
         placeholder="Enter your question here"
@@ -189,26 +236,40 @@ const QuestionInputFrame: React.FC<QuestionInputFrameComponentProps> = ({
       />
       {questionType === "multiple-choice" ? (
         <MultipleChoiceInputOptions
-          visibleOptions={visibleOptions}
+          numberOfOptionsCreated={
+            optionItemArray && optionItemArray.length
+              ? optionItemArray.length
+              : 1
+          }
+          handleOptionTextChange={handleOptionTextChange}
           handleRemoveOptions={handleRemoveOptions}
           handleAddOptions={handleAddOptions}
-          optionsNumberArray={optionsNumberArray}
+          optionItemArray={optionItemArray}
         />
       ) : questionType === "checkboxes" ? (
         <CheckboxInputOptions
-          visibleOptions={visibleOptions}
-          optionsNumberArray={optionsNumberArray}
-          onOptionChange={handleOptionChange}
-          handleRemoveOption={handleRemoveOptions}
+          numberOfOptionsCreated={
+            optionItemArray && optionItemArray.length
+              ? optionItemArray.length
+              : 1
+          }
+          optionItemArray={optionItemArray}
+          handleOptionTextChange={handleOptionTextChange}
+          handleRemoveOptions={handleRemoveOptions}
           handleAddOptions={handleAddOptions}
-          onSelectionChange={handleSelectionChange}
+          // onSelectionChange={handleSelectedOptionIndicesChange}
         />
       ) : questionType === "dropdown" ? (
         <DropDownInputOptions
-          visibleOptions={visibleOptions}
+          numberOfOptionsCreated={
+            optionItemArray && optionItemArray.length
+              ? optionItemArray.length
+              : 1
+          }
           handleRemoveOptions={handleRemoveOptions}
           handleAddOptions={handleAddOptions}
-          optionsNumberArray={optionsNumberArray}
+          optionItemArray={optionItemArray}
+          handleOptionTextChange={handleOptionTextChange}
         />
       ) : questionType === "short-answer" ? (
         <ParagraphInputOptions questionType={questionType} />

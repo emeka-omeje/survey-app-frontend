@@ -1,76 +1,90 @@
 import React from "react";
 import style from "./questionComponents.module.css";
 import { MdOutlineCancel } from "react-icons/md";
+import { IoMdAddCircleOutline } from "react-icons/io"; //for add question
+import { QuestionOptionItem } from "../../../../Utils/dataTypes";
 
 type QuestionCheckboxOptionsProps = {
-  visibleOptions: number;
-  optionsNumberArray: string[];
-  onOptionChange: (index: number, value: string) => void;
-  handleRemoveOption: () => void;
+  numberOfOptionsCreated: number;
+  optionItemArray: QuestionOptionItem[];
+  handleOptionTextChange: (id: string, newText: string) => void;
+  handleRemoveOptions: (id: string) => void;
   handleAddOptions: () => void;
   // Callback to inform the parent about the current selected options (by index)
-  onSelectionChange?: (selected: number[]) => void;
+  // onSelectionChange?: (selected: number[]) => void;
 };
 
 const CheckboxInputOptions: React.FC<QuestionCheckboxOptionsProps> = ({
-  visibleOptions,
-  optionsNumberArray,
-  onOptionChange,
-  handleRemoveOption,
+  numberOfOptionsCreated,
+  optionItemArray,
+  handleOptionTextChange,
+  handleRemoveOptions,
   handleAddOptions,
-  onSelectionChange,
+  // onSelectionChange,
 }) => {
-  // const [optionsNumberArray, setOptionsNumberArray] = React.useState([
+  // const [optionItemArray, setoptionItemArray] = React.useState([
   //   "Option 1",
   // ]);
   // Maintain an array of indices representing which options are checked
-  const [selectedOptions, setSelectedOptions] = React.useState<number[]>([]);
+  const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
 
-  const  [eachQuestionOptionText, setEachQuestionOptionText] = React.useState<string>('');
+  // const  [eachQuestionOptionText, setEachQuestionOptionText] = React.useState<string>('');
 
-  const handleCheckboxChange = (index: number) => {
-    let updatedSelection: number[];
-    if (selectedOptions.includes(index)) {
+  const handleCheckboxChange = (eachOptionCheckerId: string) => {
+    let updatedSelection: string[];
+    if (selectedOptions.includes(eachOptionCheckerId)) {
       // Uncheck the option: remove it from the array
-      updatedSelection = selectedOptions.filter((i) => i !== index);
+      updatedSelection = selectedOptions.filter(
+        (i) => i !== eachOptionCheckerId
+      );
     } else {
       // Check the option: add it to the array
-      updatedSelection = [...selectedOptions, index];
+      updatedSelection = [...selectedOptions, eachOptionCheckerId];
     }
     setSelectedOptions(updatedSelection);
-    if (onSelectionChange) {
-      onSelectionChange(updatedSelection);
-    }
+    // if (onSelectionChange) {
+    //   onSelectionChange(updatedSelection);
+    // }
   };
 
   return (
     <div className={style.questionInputOptions_main}>
-      {optionsNumberArray
-        .slice(0, visibleOptions)
-        .map((eachOptionNumber, index) => (
-          <div key={index} className={style.option}>
+      {optionItemArray
+        .slice(0, numberOfOptionsCreated)
+        .map((eachOptionItem, index) => (
+          <div key={eachOptionItem.id} className={style.option}>
             <input
               type="checkbox"
               name="checkboxOptions"
-              id={`checkbox-${index}`}
-              value={eachOptionNumber}
-              checked={selectedOptions.includes(index)}
-              onChange={() => handleCheckboxChange(index)}
+              id={eachOptionItem.id}
+              // value={eachOptionItem}
+              checked={selectedOptions.includes(eachOptionItem.id)}
+              onChange={() => handleCheckboxChange(eachOptionItem.id)}
             />
             <input
               type="text"
               placeholder={`Option ${index + 1}`}
               className={style.optionInputText}
-              onChange={(e) => onOptionChange(index, e.target.value)}
-              onClick={() => handleAddOptions}
+              value={eachOptionItem.text}
+              onChange={(e) =>
+                handleOptionTextChange(eachOptionItem.id, e.target.value)
+              }
+              // onClick={() => handleAddOptions}
             />
-            {index > 0 && (
-              <span onClick={() => handleRemoveOption()}>
+            {numberOfOptionsCreated > 0 && (
+              <span onClick={() => handleRemoveOptions(eachOptionItem.id)}>
                 <MdOutlineCancel size={18} />
               </span>
             )}
           </div>
         ))}
+      <span
+        className={style.questionInputOptions_add}
+        onClick={handleAddOptions}
+      >
+        <IoMdAddCircleOutline size={18} />
+        Add
+      </span>
     </div>
   );
 };

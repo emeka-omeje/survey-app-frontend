@@ -9,6 +9,7 @@ import { QuestionFooterPropsType } from "../../../../Utils/dataTypes";
 import { MdDragHandle } from "react-icons/md";
 // import { useAppStateMgtContext } from "../../../../Utils/AppContext";
 import { useBuilderPageFxns } from "../../../../Utils/useBuilderPageFxns";
+import QuestionConfigureModal from "./QuestionConfigureModal";
 
 const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
   sectionId,
@@ -23,6 +24,12 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
   const { getQuestionNumber } = useBuilderPageFxns();
 
   const [openMore, setOpenMore] = React.useState(false);
+  const [isConfigureModal, setIsConfigureModal] = React.useState(false);
+
+  const handleModalFunction = () => {
+    setIsConfigureModal(true);
+    setOpenMore(false);
+  }
 
   // if (!sectionIndex) return null;
   const questionNumber = getQuestionNumber(
@@ -61,12 +68,17 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
         <MdDragHandle style={{ fontSize: "24px", color: `var(--navy-blue)` }} />
       </div>
       <div className={style.questionInputFooter_alt}>
+        {/* <span>
+          <input type="check"  />
+        </span> */}
+        <span>
         <ListEachItemOtherProps
           Icon={MdContentCopy}
           toolTip="Duplicate"
           IconSize="20px"
           fontSize="10px"
         />
+        </span>
         <span onClick={() => onRemoveQuestionFrame(sectionId, questionId)}>
           <ListEachItemOtherProps
             Icon={MdDeleteOutline}
@@ -83,14 +95,18 @@ const QuestionFooter: React.FC<QuestionFooterPropsType> = ({
             questionId={questionId}
           />
         </span>
-        <span onClick={()=> setOpenMore(!openMore)}>
+        {/* <span onClick={()=> setOpenMore(!openMore)}> */}
+        <span onClick={()=> setOpenMore(!openMore)} className={style.moreConfig_wrapper}>
           
-          <ListEachItemOtherProps
+          {/* <ListEachItemOtherProps
             Icon={IoMdMore}
-            toolTip="More"
+            toolTip="A"
             IconSize="24px"
             fontSize="10px"
-          />
+          /> */}
+          <IoMdMore style={{ fontSize: "24px", color: `var(--navy-blue)` }} />
+          {openMore && <span className={style.moreConfig} onClick={handleModalFunction}>Advanced Configuration</span>}
+          {isConfigureModal && <QuestionConfigureModal />}
         </span>
       </div>
     </div>

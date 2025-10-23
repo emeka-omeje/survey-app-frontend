@@ -142,6 +142,12 @@ export type QuestionInputFrameComponentProps = {
   questionType?: string;
 };
 
+// Used: QuestionInputFrame.tsx
+export type QuestionOptionItem = {
+  id: string,
+  text: string,
+}
+
 // QuestionFooterPropsType defines the props for QuestionFooter component
 // Used: QuestionFooter.tsx
 export type QuestionFooterPropsType = {
