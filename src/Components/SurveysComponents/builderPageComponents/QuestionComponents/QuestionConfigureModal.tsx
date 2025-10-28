@@ -86,7 +86,7 @@ const QuestionConfigureModal: React.FC<QuestionConfigureModalProps> = ({
                               : [],
                             variableName:
                               variableName || suggestVariableName(attributeName),
-                            capture: { ...hiddenFields },
+                            captureMetaData: { ...hiddenFields },
                           },
                           shuffleChoices: shuffle,
                         }
