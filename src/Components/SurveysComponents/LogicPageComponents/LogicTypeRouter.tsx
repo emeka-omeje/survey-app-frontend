@@ -7,8 +7,8 @@ import PipingLogic from "./LogicTypeDisplayComponents/PipingComponents/Piping_lo
 import DefaultPrefilLogic from "./LogicTypeDisplayComponents/DefaultPrefilComponents/DefaultPrefilPanel";
 // import QuotasLogic from "./LogicTypeDisplayComponents/QuotasComponents/Quotas_logic";
 import QuotasLogic2 from "./LogicTypeDisplayComponents/QuotasComponents/QuotasPanel2";
-import RandomisationLogic from "./LogicTypeDisplayComponents/Randomisation_logic";
-import ValidationLogic from "./LogicTypeDisplayComponents/Validation_logic";
+// import RandomisationLogic from "./LogicTypeDisplayComponents/Randomisation_logic";
+// import ValidationLogic from "./LogicTypeDisplayComponents/Validation_logic";
 import TestModeLogic from "./LogicTypeDisplayComponents/Test_Mode_logic";
 // import LogicTypeHeader from "./LogicTypeDisplayComponents/LogicTypeHeaderComponents/LogicTypeHeader";
 
@@ -25,15 +25,15 @@ const LogicTypeRouter: React.FC = () => {
         <ScoringLogic />
       ) : logicNavBTNLabel === "Piping" ? (
         <PipingLogic />
-      ) : logicNavBTNLabel === "Default Values" ? (
+      ) : logicNavBTNLabel === "Prefill" ? (
         <DefaultPrefilLogic />
       ) : logicNavBTNLabel === "Quotas" ? (
         <QuotasLogic2 />
         // <QuotasLogic />
-      ) : logicNavBTNLabel === "Randomisation" ? (
-        <RandomisationLogic />
-      ) : logicNavBTNLabel === "Validation" ? (
-        <ValidationLogic />
+      // ) : logicNavBTNLabel === "Randomisation" ? (
+      //   <RandomisationLogic />
+      // ) : logicNavBTNLabel === "Validation" ? (
+      //   <ValidationLogic />
       ) : logicNavBTNLabel === "Test Mode" ? (
         <TestModeLogic />
       ) : null}
